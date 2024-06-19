@@ -2,7 +2,7 @@ import Hero from "./components/Hero.js";
 import Navbar from "../../components/Navbar.js";
 import Features from "./components/Features.js";
 import Testimonials from "./components/Testimonials.js";
-import FAQ from "./components/FAQ.js";
+import FAQ from "./components/FAQs.js";
 function Home() {
   return (
     <div className="w-screen overflow-hidden">
