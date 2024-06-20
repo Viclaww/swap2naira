@@ -5,7 +5,7 @@ import Testimonials from "./components/Testimonials.js";
 import FAQ from "./components/FAQ.js";
 function Home() {
   return (
-    <div className="w-screen overflow-hidden">
+    <div className="w-screen ran overflow-hidden">
       <Navbar />
       <Hero />
       <Features />
