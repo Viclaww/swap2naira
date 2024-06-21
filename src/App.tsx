@@ -2,8 +2,8 @@
 import "./App.css";
 import Home from "./pages/Home/Home";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Login from "./pages/aurh/Login";
-import Register from "./pages/aurh/Register";
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
 
 function App() {
   const routes = [
