@@ -1,4 +1,4 @@
-import Faq from "./Faq";
+import Faq from "./Faq.js";
 
 const FAQSection = () => {
   const faqs = [
