@@ -1,6 +1,6 @@
 import Faq from "./Faq";
 
-const FAQ = () => {
+const FAQSection = () => {
   const faqs = [
     {
       head: "What types of gift cards can I sell?",
@@ -33,4 +33,4 @@ const FAQ = () => {
   );
 };
 
-export default FAQ;
+export default FAQSection;
