@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { BiMinus, BiPlus } from "react-icons/bi";
 
-const Faq = ({
+const FaqItem = ({
   head,
   desc,
   index,
@@ -35,4 +35,4 @@ const Faq = ({
   );
 };
 
-export default Faq;
+export default FaqItem;

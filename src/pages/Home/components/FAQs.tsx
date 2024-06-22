@@ -1,4 +1,4 @@
-import Faq from "./Faq.jsx";
+import FaqItem from "./Faqitem.js";
 
 const FAQSection = () => {
   const faqs = [
@@ -26,7 +26,7 @@ const FAQSection = () => {
       </h2>
       <div className="flex gap-2 pb-10 flex-col">
         {faqs.map(({ head, desc }, index) => (
-          <Faq head={head} desc={desc} index={index} />
+          <FaqItem head={head} desc={desc} index={index} />
         ))}
       </div>
     </div>
