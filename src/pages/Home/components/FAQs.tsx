@@ -1,4 +1,4 @@
-import Faq from "./Faq.js";
+import Faq from "./Faq.tsx";
 
 const FAQSection = () => {
   const faqs = [
