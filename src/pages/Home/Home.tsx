@@ -2,7 +2,8 @@ import Hero from "./components/Hero.js";
 import Navbar from "../../components/Navbar.js";
 import Features from "./components/Features.js";
 import Testimonials from "./components/Testimonials.js";
-import FAQ from "./components/FAQ.js";
+import FAQSection from "./components/FAQs.js";
+import Footer from "../../components/Footer.js";
 function Home() {
   return (
     <div className="w-screen overflow-hidden">
@@ -10,7 +11,8 @@ function Home() {
       <Hero />
       <Features />
       <Testimonials />
-      <FAQ />
+      <FAQSection />
+      <Footer />
     </div>
   );
 }

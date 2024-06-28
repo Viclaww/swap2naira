@@ -1,4 +1,6 @@
-const FAQ = () => {
+import FaqItem from "./Faqitem.js";
+
+const FAQSection = () => {
   const faqs = [
     {
       head: "What types of gift cards can I sell?",
@@ -18,18 +20,17 @@ const FAQ = () => {
     },
   ];
   return (
-    <div>
-      <h2>Frequently Asked Questions</h2>
-      <div>
+    <div className="flex flex-col justify-center items-center">
+      <h2 className="text-5xl font-bold text-center my-10 text-blueBlack">
+        FAQs
+      </h2>
+      <div className="flex gap-2 pb-10 flex-col">
         {faqs.map(({ head, desc }, index) => (
-          <div key={index}>
-            <span>{head}</span>
-            <span>{desc}</span>
-          </div>
+          <FaqItem head={head} desc={desc} index={index} />
         ))}
       </div>
     </div>
   );
 };
 
-export default FAQ;
+export default FAQSection;
