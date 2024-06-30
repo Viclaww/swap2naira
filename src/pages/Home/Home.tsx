@@ -6,7 +6,7 @@ import FAQSection from "./components/FAQs.js";
 import Footer from "../../components/Footer.js";
 function Home() {
   return (
-    <div className="w-screen ran overflow-hidden">
+    <div className="w-screen overflow-hidden">
       <Navbar />
       <Hero />
       <Features />
