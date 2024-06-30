@@ -13,12 +13,13 @@ import { RxAvatar } from "react-icons/rx";
 
 const UserDashboard = () => {
   return (
-    <div className="px-6 pt-6 pb-14 flex flex-col text-white">
+    <div className="px-6 pt-16 pb-14 flex flex-col text-white">
       <div className="flex justify-between text-black mb-4">
-        <span className="text-2xl  font-semibold">
+        <span className="text-2xl font-medium">Dashboard</span>
+        <span className="text-2xl flex items-center  font-semibold">
           <RxAvatar size={30} />
+          <Notification size="24" color="#000" />
         </span>
-        <Notification size="24" color="#000" />
       </div>
       <div className="flex flex-col md:items-center justify-center px-3 gap-4 bg-blueZ py-6 rounded-lg mb-4">
         <span className="text-2xl  font-semibold">Hi, Thomas Shelby</span>
