@@ -1,4 +1,3 @@
-import React from "react";
 import { ArrowLeft, Camera } from "iconsax-react";
 import { useNavigate } from "react-router-dom";
 
