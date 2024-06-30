@@ -11,10 +11,10 @@ const routes = [
   { path: "/", element: <Home /> },
   { path: "/login", element: <Login /> },
   { path: "/register", element: <Register /> },
-  { path: "dashboard", element: <DashboardHome /> },
-  { path: "dashboard/account", element: <Account /> },
-  { path: "dashboard/ranking", element: <Ranking /> },
-  { path: "dashboard/history", element: <History /> },
-  { path: "dashboard/wallet", element: <Wallet /> },
+  { path: "/dashboard", element: <DashboardHome /> },
+  { path: "/dashboard/account", element: <Account /> },
+  { path: "/dashboard/ranking", element: <Ranking /> },
+  { path: "/dashboard/history", element: <History /> },
+  { path: "/dashboard/wallet", element: <Wallet /> },
 ];
 export default routes;
