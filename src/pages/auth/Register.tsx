@@ -22,7 +22,7 @@ const Register = () => {
       <button>Register</button>
 
       <span>
-        Already have an account? <Link to="/login">Log In</Link>
+        Already have an account? <Link to="/dashboard">Log In</Link>
       </span>
     </AuthLayout>
   );
