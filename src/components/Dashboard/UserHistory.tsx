@@ -1,7 +1,5 @@
 import { useState } from "react";
-import { Setting4 } from "iconsax-react";
 import DashboardHead from "./DashboardHead";
-import Balance from "./Balance";
 // import empty from "../../images/Empty-amico.png";
 
 const UserHistory = () => {
