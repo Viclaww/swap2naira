@@ -1,10 +1,11 @@
+import Balance from "./Balance";
+import DashboardHead from "./DashboardHead";
+
 const UserSetting = () => {
   return (
     <>
-      <div>
-        <div>Profile</div>
-        <div>Security</div>
-      </div>
+      <DashboardHead pageName="Setting" />
+      <Balance />
     </>
   );
 };
