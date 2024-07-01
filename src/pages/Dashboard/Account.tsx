@@ -1,14 +1,14 @@
 import DashNavbarLayout from "../../components/Dashboard/DashboardNav";
-import UserAccount from "../../components/Dashboard/UserAccount";
+import UserSetting from "../../components/Dashboard/UserSetting";
 
-const Account = () => {
+const Settings = () => {
   return (
     <div>
       <DashNavbarLayout>
-        <UserAccount />
+        <UserSetting />
       </DashNavbarLayout>
     </div>
   );
 };
 
-export default Account;
+export default Settings;
