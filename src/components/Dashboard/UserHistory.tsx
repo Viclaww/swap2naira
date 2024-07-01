@@ -3,7 +3,7 @@ import DashboardHead from "./DashboardHead";
 // import empty from "../../images/Empty-amico.png";
 
 const UserHistory = () => {
-  const [selectedTab, setSelectedTab] = useState("giftCard");
+  const [selectedTab, setSelectedTab] = useState("All");
 
   const handleSelectedTab = (tab: string) => {
     setSelectedTab(tab);
@@ -11,18 +11,35 @@ const UserHistory = () => {
   return (
     <>
       <DashboardHead pageName="History" />
-      <div className="flex justify-center items-center w-full rounded-lg bg-darkPurple">
+      <div className="flex cursor-pointer relative items-center w-full rounded-lg bg-darkPurple">
         <div
-          className={`flex justify-center  items-center font-semibold text-sm basis-1/2 rounded-lg py-2 ${
-            selectedTab === "giftCard" ? "bg-blueX" : ""
+          className={`bg-blueX z-20 rounded duration-200 w-1/3 h-full flex absolute ${
+            selectedTab == "All"
+              ? "translate-x-0"
+              : selectedTab == "giftCard"
+              ? "translate-x-full"
+              : "translate-x-[200%]"
+          }`}
+        ></div>
+        <div
+          className={`flex justify-center relative z-30  items-center font-semibold text-sm basis-1/3 rounded-lg py-2 ${
+            selectedTab === "All" ? "bg-" : ""
+          } `}
+          onClick={() => handleSelectedTab("All")}
+        >
+          All
+        </div>
+        <div
+          className={`flex justify-center  relative z-30 items-center font-semibold text-sm basis-1/3 rounded-lg py-2 ${
+            selectedTab === "giftCard" ? "bg-b" : ""
           } `}
           onClick={() => handleSelectedTab("giftCard")}
         >
           Gift Cards
         </div>
         <div
-          className={`flex justify-center items-center font-semibold text-sm basis-1/2 rounded-lg py-2 ${
-            selectedTab === "withdraw" ? "bg-blueX" : ""
+          className={`flex justify-center relative z-30  items-center font-semibold text-sm basis-1/3 rounded-lg py-2 ${
+            selectedTab === "withdraw" ? "bg-" : ""
           } `}
           onClick={() => handleSelectedTab("withdraw")}
         >
