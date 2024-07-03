@@ -7,6 +7,7 @@ import History from "../pages/Dashboard/History";
 import Wallet from "../pages/Dashboard/Wallet";
 import Settings from "../pages/Dashboard/Settings";
 import ProfileSettings from "../components/Settings/ProfileSettings";
+import SecuritySettings from "../components/Settings/SecuritySettings";
 
 const routes = [
   { path: "/", element: <Home /> },
@@ -17,7 +18,8 @@ const routes = [
     path: "/dashboard/settings",
     element: <Settings />,
     children: [
-      { path: "/dashboard/settings/Profile", element: <ProfileSettings /> },
+      { path: "profile", element: <ProfileSettings /> },
+      { path: "Security", element: <SecuritySettings /> },
     ],
   },
   // { path: "/dashboard/ranking", element: <Ranking /> },

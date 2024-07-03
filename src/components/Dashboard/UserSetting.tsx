@@ -7,19 +7,29 @@ import { Outlet } from "react-router-dom";
 
 const UserSetting = () => {
   const settingsTabs = [
-    { name: "Profile", icon: (size: number) => <FaPerson size={size} /> },
-    { name: "Security", icon: (size: number) => <FaUserLock size={size} /> },
+    {
+      name: "Profile",
+      icon: (size: number) => <FaPerson size={size} />,
+    },
+    {
+      name: "Security",
+      icon: (size: number) => <FaUserLock size={size} />,
+    },
     {
       name: "Chat with Us",
       icon: (size: number) => <IoIosChatboxes size={size} />,
     },
-    { name: "Log Out", icon: (size: number) => <CiLogout size={size} /> },
+    {
+      name: "Log Out",
+
+      icon: (size: number) => <CiLogout size={size} />,
+    },
   ];
   return (
     <>
       <DashboardHead pageName="Setting" />
       <Balance />
-      <div className="flex w-full mt-8">
+      <div className="flex justify-center w-full mt-8">
         <div className="places w-2/5 flex flex-col gap-5  px-10 text-black">
           {settingsTabs.map(({ name, icon }, index) => (
             <div
@@ -31,7 +41,7 @@ const UserSetting = () => {
             </div>
           ))}
         </div>
-        <div>
+        <div className="w-2/5">
           <Outlet />
         </div>
       </div>
