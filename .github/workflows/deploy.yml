@@ -3,7 +3,7 @@ name: Deploy React App to cPanel
 on:
   push:
     branches:
-      - master  # Set the branch you want to deploy on push
+      - master  
 
 jobs:
   build:
