@@ -1,31 +1,41 @@
 import React from "react";
 import { Home2, Wallet3, Book, Logout, Setting2 } from "iconsax-react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 interface Prop {
   children: React.ReactNode;
 }
 
 const DashNavbarLayout: React.FC<Prop> = ({ children }) => {
+  const location = useLocation().pathname;
+  console.log(location);
   const links = [
     {
       path: "/dashboard",
-      icon: <Home2 size="24" color="#ADD8E6" />,
+      icon: (active: boolean) => (
+        <Home2 size="24" color="#fff" variant={active ? "Bold" : "Linear"} />
+      ),
       name: "Home",
     },
     {
       path: "/dashboard/wallet",
-      icon: <Wallet3 size="24" color="#ADD8E6" />,
+      icon: (active: boolean) => (
+        <Wallet3 size="24" color="#fff" variant={active ? "Bold" : "Linear"} />
+      ),
       name: "Wallet",
     },
     {
       path: "/dashboard/history",
-      icon: <Book size="24" color="#ADD8E6" />,
+      icon: (active: boolean) => (
+        <Book size="24" color="#fff" variant={active ? "Bold" : "Linear"} />
+      ),
       name: "History",
     },
     {
       path: "/dashboard/settings",
-      icon: <Setting2 size="24" color="#ADD8E6" />,
+      icon: (active: boolean) => (
+        <Setting2 size="24" color="#fff" variant={active ? "Bold" : "Linear"} />
+      ),
       name: "Settings",
     },
   ];
@@ -45,18 +55,10 @@ const DashNavbarLayout: React.FC<Prop> = ({ children }) => {
               } w-full flex  flex-col before:bg-white md:before:w-1 before:h-0 hover:before:h-full before:duration-200 before:absolute before:rounded before:left-0 relative  gap-1 justify-center md:py-9 items-center cursor-pointer `
             }
           >
-            {icon}
+            {icon(location == path)}
             <span className="text-xs">{name}</span>
           </NavLink>
         ))}
-
-        {/* <Link
-          to="/dashboard/ranking"
-          className="w-full flex flex-col before:bg-white md:before:w-1 before:h-0 hover:before:h-full before:duration-200 before:absolute before:rounded before:-left-0 relative   gap-1 justify-center md:py-9 items-center cursor-pointer "
-        >
-          <Rank size="24" color="#ADD8E6" />
-          <span className="text-xs">Rank</span>
-        </Link> */}
 
         <div className="w-full flex flex-col before:bg-white md:before:w-1 before:h-0 hover:before:h-full before:duration-200 before:absolute before:rounded before:-left-0 relative   gap-1 justify-center md:py-9 items-center cursor-pointer ">
           <Logout size="24" color="#ADD8E6" />
