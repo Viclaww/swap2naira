@@ -3,25 +3,37 @@ import DashboardHead from "./DashboardHead";
 import { FaPerson, FaUserLock } from "react-icons/fa6";
 import { CiLogout } from "react-icons/ci";
 import { IoIosChatboxes } from "react-icons/io";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
+import React from "react";
+
+interface SettingsTab {
+  name: string;
+  onClick: () => void | null;
+  icon: (size: number) => React.ReactNode;
+}
 
 const UserSetting = () => {
-  const settingsTabs = [
+  const navigate = useNavigate();
+
+  const settingsTabs: SettingsTab[] = [
     {
       name: "Profile",
+      onClick: () => navigate("/dashboard/settings/profile"),
       icon: (size: number) => <FaPerson size={size} />,
     },
     {
       name: "Security",
+      onClick: () => navigate("/dashboard/settings/security"),
       icon: (size: number) => <FaUserLock size={size} />,
     },
     {
       name: "Chat with Us",
+      onClick: () => console.log("Coming soon"),
       icon: (size: number) => <IoIosChatboxes size={size} />,
     },
     {
       name: "Log Out",
-
+      onClick: () => console.log("Signing out"),
       icon: (size: number) => <CiLogout size={size} />,
     },
   ];
