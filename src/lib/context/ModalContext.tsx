@@ -1,9 +1,9 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useState } from "react";
 
-const ModalContext = createContext({});
+export const ModalContext = createContext({});
 
 export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
-  const [isModalOpen, SetModalOpen] = useState(true);
+  const [isModalOpen, SetModalOpen] = useState(false);
 
   const openModal = () => SetModalOpen(true);
   const closeModal = () => SetModalOpen(false);
@@ -13,5 +13,3 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
     </ModalContext.Provider>
   );
 };
-
-export const useModal = () => useContext(ModalContext);

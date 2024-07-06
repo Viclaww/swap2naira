@@ -1,4 +1,4 @@
-import { useModal } from "../lib/context/ModalContext";
+import { useModal } from "../lib/context/exports";
 import { BiX } from "react-icons/bi";
 
 type ModalContext = {
