@@ -5,6 +5,7 @@ import "./App.css";
 import { Provider } from "react-redux";
 import { store } from "./lib/store";
 import { ModalProvider } from "./lib/context/ModalContext";
+import OtpModal from "./components/OtpModal";
 
 function App() {
   const router = createBrowserRouter([...routes]);
@@ -14,6 +15,7 @@ function App() {
       <ModalProvider>
         <div className=" relative overflow-hidden font-poppins">
           <RouterProvider router={router} />
+          <OtpModal />
         </div>
       </ModalProvider>
     </Provider>
