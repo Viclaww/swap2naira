@@ -2,6 +2,7 @@ const SecuritySettings = () => {
   const securityTabs = [
     { name: "Change Password" },
     { name: "Change Withdraw Pin" },
+    { name: "Reset Pin" },
   ];
   return (
     <div className="places flex flex-col gap-5  px-10 text-black">
