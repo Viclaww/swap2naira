@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import Modal from "./ModalComp";
 const OtpModal = () => {
-  const [otp, setOtp] = useState<string[]>(["", "", "", ""]);
+  const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   const handleOtpChange = (index: number, value: string) => {
@@ -17,8 +17,6 @@ const OtpModal = () => {
       inputRefs.current[index + 1]?.focus();
     }
   };
-
-  console.log(otp);
 
   return (
     <Modal>

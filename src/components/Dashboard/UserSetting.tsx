@@ -43,8 +43,9 @@ const UserSetting = () => {
       <Balance />
       <div className="flex justify-center w-full mt-8">
         <div className="places w-2/5 flex flex-col gap-5  px-10 text-black">
-          {settingsTabs.map(({ name, icon }, index) => (
+          {settingsTabs.map(({ name, icon, onClick }, index) => (
             <div
+              onClick={onClick}
               className="flex bg-blueX/10 rounded-full items-center gap-6 cursor-pointer px-4 py-5"
               key={index}
             >
