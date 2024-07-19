@@ -6,18 +6,21 @@ import { Provider } from "react-redux";
 import { store } from "./lib/store";
 import { ModalProvider } from "./lib/context/ModalContext";
 import OtpModal from "./components/OtpModal";
+import { HelmetProvider } from "react-helmet-async";
 
 function App() {
   const router = createBrowserRouter([...routes]);
 
   return (
     <Provider store={store}>
-      <ModalProvider>
-        <div className=" relative overflow-hidden font-poppins">
-          <RouterProvider router={router} />
-          <OtpModal />
-        </div>
-      </ModalProvider>
+      <HelmetProvider>
+        <ModalProvider>
+          <div className=" relative overflow-hidden font-poppins">
+            <RouterProvider router={router} />
+            <OtpModal />
+          </div>
+        </ModalProvider>
+      </HelmetProvider>
     </Provider>
   );
 }

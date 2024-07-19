@@ -32,7 +32,7 @@ const SecuritySettings = () => {
       <div
         className={`${
           currentTab ? "h-1/5" : "h-4/5"
-        } places flex tabs transition-all h-fit  flex-col relative gap-5 duration-500  px-10 text-black`}
+        } places flex tabs transition-all h-fit  flex-col relative gap-5 duration-500 md:px-10 text-black`}
       >
         {securityTabs.map(({ name }, index) => (
           <div
@@ -49,26 +49,26 @@ const SecuritySettings = () => {
           </div>
         ))}
       </div>
-      <div className="text-black flex flex-col gap-3 mt-6 font-medium justify-center items-center duration-500">
+      <div className="text-black  w-full flex flex-col  gap-3 mt-6 font-medium justify-center items-center duration-500">
         {currentTab == "Change Password" ? (
           <>
             <input
-              className="px-4 py-3 w-2/3 outline-none rounded-full placeholder:text-black/60  bg-blueX/20"
+              className="px-4 py-3  w-full md:w-2/3 outline-none rounded-full placeholder:text-black/60  bg-blueX/20"
               placeholder="Old password"
               type="text"
             />
             <input
-              className="px-4 py-3 w-2/3 outline-none rounded-full placeholder:text-black/60  bg-blueX/20"
+              className="px-4 py-3 w-full md:w-2/3 outline-none rounded-full placeholder:text-black/60  bg-blueX/20"
               placeholder="New password"
               type="text"
             />
             <input
-              className="px-4 py-3 w-2/3 outline-none rounded-full placeholder:text-black/60  bg-blueX/20"
+              className="px-4 py-3 w-full md:w-2/3 outline-none rounded-full placeholder:text-black/60  bg-blueX/20"
               placeholder="Confirm password"
               type="text"
             />
             <button
-              className="px-4 py-3 rounded-full outline-none bg-blueX w-2/3 cursor-pointer"
+              className="px-4 py-3 w-full rounded-full outline-none bg-blueX  md:w-2/3 cursor-pointer"
               type="submit"
             >
               Submit
@@ -77,27 +77,27 @@ const SecuritySettings = () => {
         ) : currentTab == "Change Withdraw Pin" ? (
           <>
             <input
-              className="px-4 py-3 w-2/3 outline-none rounded-full placeholder:text-black/60  bg-blueX/20"
+              className="px-4 py-3 w-full  md:w-2/3 outline-none rounded-full placeholder:text-black/60  bg-blueX/20"
               placeholder="Old pin"
               type="number"
             />
             <input
-              className="px-4 py-3 w-2/3 outline-none rounded-full placeholder:text-black/60  bg-blueX/20"
+              className="px-4 py-3  w-full md:w-2/3 outline-none rounded-full placeholder:text-black/60  bg-blueX/20"
               placeholder="New pin"
               type="number"
             />
-            <button className="px-4 py-3 rounded-full outline-none bg-blueX w-2/3 cursor-pointer">
+            <button className="px-4 py-3 rounded-full outline-none bg-blueX  md:w-2/3 cursor-pointer">
               Change Pin
             </button>
           </>
         ) : currentTab == "Reset Pin" ? (
           <>
             <input
-              className="px-4 py-3 w-2/3 outline-none rounded-full placeholder:text-black/60  bg-blueX/20"
+              className="px-4 py-3 w-full md:w-2/3 outline-none rounded-full placeholder:text-black/60  bg-blueX/20"
               placeholder="email"
               type="text"
             />
-            <button className="px-4 py-3 rounded-full focus:outline-none bg-blueX w-2/3 cursor-pointer">
+            <button className="px-4 py-3 rounded-full focus:outline-none bg-blueX  w-full md:w-2/3 cursor-pointer">
               Send OTP
             </button>
           </>

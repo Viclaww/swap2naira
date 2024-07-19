@@ -1,13 +1,17 @@
+import { Helmet } from "react-helmet-async";
 import DashNavbarLayout from "../../components/Dashboard/DashboardNav";
 import UserSetting from "../../components/Dashboard/UserSetting";
 
 const Settings = () => {
   return (
-    <div>
+    <>
+      <Helmet>
+        <title>Settings | Swap2Naira</title>
+      </Helmet>
       <DashNavbarLayout>
         <UserSetting />
       </DashNavbarLayout>
-    </div>
+    </>
   );
 };
 
