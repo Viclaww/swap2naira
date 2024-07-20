@@ -1,36 +1,47 @@
 import { useState, useRef } from "react";
 import Modal from "./ModalComp";
 import { useVerifyOTPMutation } from "@/lib/api/generalApi";
+import { useModal } from "@/lib/context/exports";
 
 interface OtpFunctions {
-  onVerify?: () => void | undefined;
-  onError?: () => void | undefined;
+  onVerify?: () => void;
+  onError?: () => void;
 }
+
+type ModalContext = {
+  isModalOpen: boolean;
+  closeModal: () => void;
+  openModal: () => void;
+};
 const OtpModal = ({ onVerify, onError }: OtpFunctions) => {
   const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
-  const [verifyOTP, { isLoading, isSuccess, isError }] = useVerifyOTPMutation();
+  const [verifyOTP, { isSuccess, isError }] = useVerifyOTPMutation();
+
+  const { closeModal } = useModal() as ModalContext;
+
+  const handleSubmit = async () => {
+    try {
+      await verifyOTP({ otp: otp });
+
+      if (isSuccess) {
+        onVerify && onVerify();
+        closeModal();
+      }
+      if (isError) {
+        onError && onError();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleOtpChange = (index: number, value: string) => {
     if (value.length > 1) {
       value = value.slice(0, 1);
     }
 
-    const handleSubmit = async () => {
-      try {
-        await verifyOTP({ otp: otp });
-
-        if (isSuccess) {
-          onVerify();
-        }
-        if (isError) {
-          onError();
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
     const newOtp = [...otp];
     newOtp[index] = value;
     setOtp(newOtp);
@@ -57,7 +68,12 @@ const OtpModal = ({ onVerify, onError }: OtpFunctions) => {
             />
           ))}
         </div>
-        <button className="w-1/2 p-2 m-2 bg-black text-white">Submit</button>
+        <button
+          onClick={handleSubmit}
+          className="w-1/2 p-2 m-2 bg-black text-white"
+        >
+          Submit
+        </button>
         <p>Didn't get Code? Resend</p>
       </div>
     </Modal>

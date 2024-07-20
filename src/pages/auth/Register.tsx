@@ -13,7 +13,7 @@ type ModalContext = {
 };
 
 const Register = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [userName, setUsername] = useState("");
@@ -54,7 +54,7 @@ const Register = () => {
         <meta name="description" content="Create a Swap2Naira Account" />
         <title>Create an Account</title>
       </Helmet>
-      <OtpModal onVerify={} />
+      <OtpModal onVerify={() => navigate("/dashboard")} />
       <input
         type="text"
         name="Email"
