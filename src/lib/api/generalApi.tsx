@@ -5,9 +5,9 @@ import { LoginRequest, LoginResponse } from "../types";
 // Define a service using a base URL and expected endpoints
 export const generalApi = createApi({
   reducerPath: "Api",
-  baseQuery: fetchBaseQuery({ baseUrl: "" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "https://api.swap2naira.com/api/v1" }),
   endpoints: (build) => ({
-    login: build.mutation({
+    login: build.mutation<LoginResponse, LoginRequest>({
       query: (body) => ({
         url: "/auth/login",
         method: "POST",
@@ -34,6 +34,13 @@ export const generalApi = createApi({
         method: "GET",
       }),
     }),
+    verifyOTP: build.mutation({
+      query: (body) => ({
+        url: "/auth/verify-otp",
+        method: "POST",
+        body,
+      }),
+    }),
     logoutUser: build.query({
       query: () => ({
         url: "/auth/logout",
@@ -45,3 +52,6 @@ export const generalApi = createApi({
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
+
+export const { useLoginMutation, useVerifyOTPMutation, useRegisterMutation } =
+  generalApi;

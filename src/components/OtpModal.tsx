@@ -1,14 +1,36 @@
 import { useState, useRef } from "react";
 import Modal from "./ModalComp";
-const OtpModal = () => {
+import { useVerifyOTPMutation } from "@/lib/api/generalApi";
+
+interface OtpFunctions {
+  onVerify?: () => void | undefined;
+  onError?: () => void | undefined;
+}
+const OtpModal = ({ onVerify, onError }: OtpFunctions) => {
   const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+
+  const [verifyOTP, { isLoading, isSuccess, isError }] = useVerifyOTPMutation();
 
   const handleOtpChange = (index: number, value: string) => {
     if (value.length > 1) {
       value = value.slice(0, 1);
     }
 
+    const handleSubmit = async () => {
+      try {
+        await verifyOTP({ otp: otp });
+
+        if (isSuccess) {
+          onVerify();
+        }
+        if (isError) {
+          onError();
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
     const newOtp = [...otp];
     newOtp[index] = value;
     setOtp(newOtp);
