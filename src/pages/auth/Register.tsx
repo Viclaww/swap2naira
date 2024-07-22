@@ -5,6 +5,8 @@ import { FormEvent, useState } from "react";
 import { useRegisterMutation } from "../../lib/api/generalApi";
 import { useModal } from "@/lib/context/exports";
 import OtpModal from "@/components/OtpModal";
+import { setToken } from "@/lib/reducers/userSlice";
+import { useDispatch } from "react-redux";
 
 type ModalContext = {
   isModalOpen: boolean;
@@ -13,6 +15,7 @@ type ModalContext = {
 };
 
 const Register = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -42,6 +45,7 @@ const Register = () => {
       }
       if (isSuccess) {
         console.log(data);
+        dispatch(setToken(data.token));
         openModal();
       }
     } catch (error) {
@@ -54,7 +58,10 @@ const Register = () => {
         <meta name="description" content="Create a Swap2Naira Account" />
         <title>Create an Account</title>
       </Helmet>
-      <OtpModal onVerify={() => navigate("/dashboard")} />
+      <OtpModal
+        description="Verify your Email. We have sent an OTP to your Mail. fill the OTP to verify Mail"
+        onVerify={() => navigate("/dashboard")}
+      />
       <input
         type="text"
         name="Email"
@@ -100,7 +107,7 @@ const Register = () => {
       </button>
 
       <span>
-        Already have an account? <Link to="/dashboard">Log In</Link>
+        Already have an account? <Link to="/login">Log In</Link>
       </span>
     </AuthLayout>
   );

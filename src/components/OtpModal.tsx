@@ -3,7 +3,8 @@ import Modal from "./ModalComp";
 import { useVerifyOTPMutation } from "@/lib/api/generalApi";
 import { useModal } from "@/lib/context/exports";
 
-interface OtpFunctions {
+interface OtpProps {
+  description: string;
   onVerify?: () => void;
   onError?: () => void;
 }
@@ -13,7 +14,7 @@ type ModalContext = {
   closeModal: () => void;
   openModal: () => void;
 };
-const OtpModal = ({ onVerify, onError }: OtpFunctions) => {
+const OtpModal = ({ onVerify, onError, description }: OtpProps) => {
   const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
@@ -46,8 +47,16 @@ const OtpModal = ({ onVerify, onError }: OtpFunctions) => {
     newOtp[index] = value;
     setOtp(newOtp);
 
+    console.log("This is otp", otp.join(""));
+
     if (value && index < inputRefs.current.length - 1) {
       inputRefs.current[index + 1]?.focus();
+    }
+    if (!value && index > 0) {
+      inputRefs.current[index - 1]?.focus();
+    }
+    if (value === "" && index > 0) {
+      inputRefs.current[index - 1]?.focus();
     }
   };
 
@@ -55,12 +64,13 @@ const OtpModal = ({ onVerify, onError }: OtpFunctions) => {
     <Modal>
       <div className="flex flex-col gap-3 items-center">
         <h1 className="text-2xl font-bold">Enter OTP</h1>
-        <div className="flex">
+        <p className="text-center">{description}</p>
+        <div className="flex gap-2">
           {otp.map((digit, index) => (
             <input
               key={index}
               type="text"
-              className="w-12 h-12 outline-none p-2 m-2 border-2 border-black"
+              className="w-12 h-12 text-3xl outline-none px-[auto]  border rounded border-black"
               placeholder="0"
               value={digit}
               onChange={(e) => handleOtpChange(index, e.target.value)}
