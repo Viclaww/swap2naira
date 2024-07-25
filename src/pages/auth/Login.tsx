@@ -33,13 +33,20 @@ const Login = () => {
         saveCookie("token", data.data.token, 7);
       }
       if (error) {
-        setErrmsg(getFirstField(error?.data?.data)[0]);
+        if ("status" in error && error.status == 401) {
+          setErrmsg("Incorrect Username or Password");
+        }
+        setErrmsg(
+          getFirstField(
+            (error as unknown)?.data?.data as { [x: string]: unknown }
+          )[0]
+        );
       }
       if (data && !data.success) {
         setErrmsg(data.message);
       }
     } catch (error) {
-      console.log("Error Loging in", error);
+      console.log("Error Loging in", "Please Check your Internet connection");
     }
   };
   return (
@@ -69,7 +76,7 @@ const Login = () => {
       <button className="flex justify-center" onClick={handleLogin}>
         {isLoading ? <Loader /> : "Login"}
       </button>
-      {errmsg && <span className="error">{errmsg}</span>}
+      {errmsg && <span className="text-red-800">{errmsg}</span>}
       <span>
         Dont have account? <Link to="/register">Sign Up</Link>
       </span>

@@ -7,6 +7,7 @@ import { store } from "./lib/store";
 import { ModalProvider } from "./lib/context/ModalContext";
 import { HelmetProvider } from "react-helmet-async";
 import OtpModal from "./components/OtpModal";
+import { UserProvider } from "./lib/context/UserContext";
 
 function App() {
   const router = createBrowserRouter([...routes]);
@@ -15,10 +16,12 @@ function App() {
     <Provider store={store}>
       <HelmetProvider>
         <ModalProvider>
-          <div className=" relative overflow-hidden font-poppins">
-            <RouterProvider router={router} />
-            <OtpModal />
-          </div>
+          <UserProvider>
+            <div className=" relative overflow-hidden font-poppins">
+              <RouterProvider router={router} />
+              <OtpModal />
+            </div>
+          </UserProvider>
         </ModalProvider>
       </HelmetProvider>
     </Provider>

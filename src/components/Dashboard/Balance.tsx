@@ -1,12 +1,38 @@
+import { useUserContext } from "@/lib/context/exports";
+import { userContext } from "@/lib/types";
 import { Card, Money4 } from "iconsax-react";
 import { RiEyeCloseLine } from "react-icons/ri";
+import Skeleton from "../skeleton";
 
 const Balance = () => {
+  const { isFetching, user, error } = useUserContext() as userContext;
+  console.log(isFetching);
   return (
     <div className="flex flex-col md:items-center justify-center px-3 gap-4 bg-blueZ py-6 rounded-lg mb-4">
-      <span className="text-2xl  font-semibold">Hi, Thomas Shelby</span>
+      <span className="text-2xl  font-semibold">
+        {isFetching ? (
+          <Skeleton width="30%" />
+        ) : user ? (
+          `Hi, ${user.username}`
+        ) : error ? (
+          "...."
+        ) : (
+          ""
+        )}
+      </span>
       <div className="flex gap-3 items-center">
-        <span>₦0.00</span>
+        <span>
+          ₦
+          {isFetching ? (
+            <Skeleton width="30%" />
+          ) : user ? (
+            ` ${user.wallet.main_balance.toFixed(2)}`
+          ) : error ? (
+            "...."
+          ) : (
+            ""
+          )}
+        </span>
         <span>
           <RiEyeCloseLine />
         </span>

@@ -5,6 +5,7 @@ import { LoginRequest, LoginResponse } from "../types";
 // Define a service using a base URL and expected endpoints
 export const generalApi = createApi({
   reducerPath: "Api",
+  refetchOnReconnect: true,
   baseQuery: fetchBaseQuery({ baseUrl: "https://api.swap2naira.com/api/v1" }),
   endpoints: (build) => ({
     login: build.mutation<LoginResponse, LoginRequest>({
@@ -57,6 +58,7 @@ export const generalApi = createApi({
     getUser: build.query({
       query: (token: string) => ({
         url: "/auth/user",
+
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
