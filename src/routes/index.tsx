@@ -8,12 +8,14 @@ import Wallet from "../pages/Dashboard/Wallet";
 import Settings from "../pages/Dashboard/Settings";
 import ProfileSettings from "../components/Settings/ProfileSettings";
 import SecuritySettings from "../components/Settings/SecuritySettings";
+import ForgotPassword from "@/pages/auth/ForgotPassword";
 
 const routes = [
   { path: "/", element: <Home /> },
   { path: "/login", element: <Login /> },
   { path: "/register", element: <Register /> },
   { path: "/dashboard", element: <DashboardHome /> },
+  { path: "forgot-password", element: <ForgotPassword /> },
   {
     path: "/dashboard/settings",
     element: <Settings />,

@@ -3,24 +3,40 @@ import AuthLayout from "./Layout";
 import { Helmet } from "react-helmet-async";
 import { FormEvent, useState } from "react";
 import { useLoginMutation } from "../../lib/api/generalApi";
+import { setToken } from "@/lib/reducers/userSlice";
+import { getFirstField, saveCookie } from "@/utils/functions";
+import { useAppDispatch } from "@/lib/hooks";
+import Loader from "@/components/loader";
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [login, { isLoading, isSuccess }] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
+  const [errmsg, setErrmsg] = useState<string | null>(null);
 
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
 
     try {
-      const data = {
+      const reqdata = {
         username: email,
         password,
       };
-      await login(data);
-      if (isSuccess) {
+      const { data, error } = await login(reqdata);
+
+      if (data && data.success) {
         navigate("/dashboard");
+        dispatch(setToken(data.data.token));
+        saveCookie("token", data.data.token, 7);
+      }
+      if (error) {
+        setErrmsg(getFirstField(error?.data?.data)[0]);
+      }
+      if (data && !data.success) {
+        setErrmsg(data.message);
       }
     } catch (error) {
       console.log("Error Loging in", error);
@@ -50,10 +66,16 @@ const Login = () => {
         name="password"
         id="password"
       />
-      <button onClick={handleLogin}>{isLoading ? "Loading" : "Login"}</button>
+      <button className="flex justify-center" onClick={handleLogin}>
+        {isLoading ? <Loader /> : "Login"}
+      </button>
+      {errmsg && <span className="error">{errmsg}</span>}
       <span>
         Dont have account? <Link to="/register">Sign Up</Link>
       </span>
+      <Link className="text-center" to="/forgot-password">
+        Forgot Password
+      </Link>
     </AuthLayout>
   );
 };

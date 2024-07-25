@@ -3,12 +3,32 @@ import { createContext, useState } from "react";
 export const ModalContext = createContext({});
 
 export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
-  const [isModalOpen, SetModalOpen] = useState(true);
-
-  const openModal = () => SetModalOpen(true);
-  const closeModal = () => SetModalOpen(false);
+  const [isModalOpen, SetModalOpen] = useState(false);
+  const [email, setModalEmail] = useState("");
+  const [onVerify, setOnVerify] = useState<() => void>(() => {});
+  const [description, setDescription] = useState("");
+  const openModal = (desc: string, onVerifyarg: () => void) => {
+    setOnVerify(onVerifyarg);
+    setDescription(desc);
+    SetModalOpen(true);
+  };
+  const closeModal = () => {
+    setOnVerify(() => {});
+    SetModalOpen(false);
+    setDescription("");
+  };
   return (
-    <ModalContext.Provider value={{ isModalOpen, openModal, closeModal }}>
+    <ModalContext.Provider
+      value={{
+        isModalOpen,
+        email,
+        onVerify,
+        setModalEmail,
+        openModal,
+        closeModal,
+        description,
+      }}
+    >
       {children}
     </ModalContext.Provider>
   );

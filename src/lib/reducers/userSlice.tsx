@@ -1,9 +1,10 @@
+import { getCookie } from "@/utils/functions";
 import { createSlice } from "@reduxjs/toolkit";
 
 const userSlice = createSlice({
   name: "User",
   initialState: {
-    token: "",
+    token: "" || getCookie("token"),
     user: null,
   },
 
@@ -15,4 +16,7 @@ const userSlice = createSlice({
 });
 
 export const { setToken } = userSlice.actions;
+
+export const tokenSelector = (state: { user: { token: string } }) =>
+  state.user.token;
 export default userSlice.reducer;

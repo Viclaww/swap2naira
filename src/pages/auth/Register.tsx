@@ -6,30 +6,26 @@ import { useRegisterMutation } from "../../lib/api/generalApi";
 import { useModal } from "@/lib/context/exports";
 import OtpModal from "@/components/OtpModal";
 import { setToken } from "@/lib/reducers/userSlice";
-import { useDispatch } from "react-redux";
-
-type ModalContext = {
-  isModalOpen: boolean;
-  closeModal: () => void;
-  openModal: () => void;
-};
+import { getFirstField, saveCookie } from "@/utils/functions";
+import { useAppDispatch } from "@/lib/hooks";
+import { ModalContext } from "@/lib/types";
 
 const Register = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
   const [email, setEmail] = useState("");
   const [userName, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [referralCode, setreferralCode] = useState("");
+  const [error, setError] = useState(null);
 
-  const { openModal } = useModal() as ModalContext;
+  const { openModal, setModalEmail } = useModal() as ModalContext;
 
-  const [register, { data, isLoading, isError, isSuccess, error }] =
-    useRegisterMutation();
+  const [register, { data, isLoading, isError }] = useRegisterMutation();
   const handleRegister = async (e: FormEvent) => {
     e.preventDefault();
+    setError(null);
     try {
       const reqData = {
         username: userName,
@@ -38,15 +34,22 @@ const Register = () => {
         password,
         // referral_code: referralCode,
       };
+      const responce = await register(reqData);
 
-      await register(reqData);
-      if (isError) {
-        console.log("the error", error);
+      if (responce.error) {
+        console.log("Error", responce.error);
+        setError(getFirstField(responce.error?.data?.data)[0]);
       }
-      if (isSuccess) {
-        console.log(data);
-        dispatch(setToken(data.token));
-        openModal();
+      if (responce.data) {
+        console.log("Data", responce.data);
+        setModalEmail(email);
+        console.log("Token", responce.data.data.token);
+        saveCookie("token", responce.data.data.token, 7);
+        dispatch(setToken(responce.data.token));
+        openModal(
+          "Verify your Email. We have sent an OTP to your Mail. fill the OTP to verify Mail",
+          () => navigate("/dashboard")
+        );
       }
     } catch (error) {
       console.log("Error Registering", error);
@@ -58,10 +61,6 @@ const Register = () => {
         <meta name="description" content="Create a Swap2Naira Account" />
         <title>Create an Account</title>
       </Helmet>
-      <OtpModal
-        description="Verify your Email. We have sent an OTP to your Mail. fill the OTP to verify Mail"
-        onVerify={() => navigate("/dashboard")}
-      />
       <input
         type="text"
         name="Email"
@@ -106,6 +105,7 @@ const Register = () => {
         {isLoading ? "Loading..." : "Register"}
       </button>
 
+      {error && <p className="text-red-500 text-center">{error}</p>}
       <span>
         Already have an account? <Link to="/login">Log In</Link>
       </span>

@@ -5,6 +5,7 @@ export interface LoginRequest {
 
 export interface LoginResponse {
   success: boolean;
+  message: string;
   data: {
     token: string;
   };
@@ -14,3 +15,13 @@ export interface LoginResponse {
     name: string;
   };
 }
+
+export type ModalContext = {
+  isModalOpen: boolean;
+  closeModal: () => void;
+  openModal: (desc: string, onVerify: () => void) => void;
+  setModalEmail: (email: string) => void;
+  description: string;
+  email: string;
+  onVerify: () => void;
+};

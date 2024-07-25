@@ -5,7 +5,7 @@ import userReducer from "./reducers/userSlice";
 export const store = configureStore({
   reducer: {
     [generalApi.reducerPath]: generalApi.reducer,
-    userReducer,
+    user: userReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(generalApi.middleware),

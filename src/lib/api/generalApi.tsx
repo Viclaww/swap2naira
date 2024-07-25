@@ -34,9 +34,16 @@ export const generalApi = createApi({
         method: "GET",
       }),
     }),
-    verifyOTP: build.mutation({
+    verifyEmail: build.mutation({
       query: (body) => ({
-        url: "/auth/verify-otp",
+        url: "/auth/verify",
+        method: "POST",
+        body,
+      }),
+    }),
+    verifyForgotPass: build.mutation({
+      query: (body) => ({
+        url: "/auth/verify-forgot-password",
         method: "POST",
         body,
       }),
@@ -47,11 +54,26 @@ export const generalApi = createApi({
         method: "GET",
       }),
     }),
+    getUser: build.query({
+      query: (token: string) => ({
+        url: "/auth/user",
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    }),
   }),
 });
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
 
-export const { useLoginMutation, useVerifyOTPMutation, useRegisterMutation } =
-  generalApi;
+export const {
+  useLoginMutation,
+  useGetUserQuery,
+  useVerifyEmailMutation,
+  useRegisterMutation,
+  useForgotPasswordMutation,
+  useVerifyForgotPassMutation,
+} = generalApi;
