@@ -4,7 +4,6 @@ import { Helmet } from "react-helmet-async";
 import { FormEvent, useState } from "react";
 import { useRegisterMutation } from "../../lib/api/generalApi";
 import { useModal } from "@/lib/context/exports";
-import OtpModal from "@/components/OtpModal";
 import { setToken } from "@/lib/reducers/userSlice";
 import { getFirstField, saveCookie } from "@/utils/functions";
 import { useAppDispatch } from "@/lib/hooks";
@@ -22,7 +21,7 @@ const Register = () => {
 
   const { openModal, setModalEmail } = useModal() as ModalContext;
 
-  const [register, { data, isLoading, isError }] = useRegisterMutation();
+  const [register, { isLoading }] = useRegisterMutation();
   const handleRegister = async (e: FormEvent) => {
     e.preventDefault();
     setError(null);

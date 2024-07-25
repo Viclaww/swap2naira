@@ -36,9 +36,11 @@ const Login = () => {
         if ("status" in error && error.status == 401) {
           setErrmsg("Incorrect Username or Password");
         }
+        console, log(typeof error);
         setErrmsg(
           getFirstField(
-            (error as unknown)?.data?.data as { [x: string]: unknown }
+            (error as { data?: { data?: { [x: string]: unknown } } })?.data
+              ?.data as { [x: string]: unknown }
           )[0]
         );
       }
