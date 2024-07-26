@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import AuthLayout from "./Layout";
 import { Helmet } from "react-helmet-async";
 import { FormEvent, useState } from "react";
@@ -8,10 +8,11 @@ import { setToken } from "@/lib/reducers/userSlice";
 import { getFirstField } from "@/utils/functions";
 import { useAppDispatch } from "@/lib/hooks";
 import { ModalContext } from "@/lib/types";
+import OtpModal from "@/components/OtpModal";
+import Loader from "@/components/loader";
 
 const Register = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [userName, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -31,7 +32,7 @@ const Register = () => {
         email,
         phone,
         password,
-        // referral_code: referralCode,
+        referral_code: referralCode ? referralCode : undefined,
       };
       const responce = await register(reqData);
 
@@ -52,10 +53,8 @@ const Register = () => {
         dispatch(setToken(responce.data.data.token));
         openModal(
           "Verify your Email. We have sent an OTP to your Mail. fill the OTP to verify Mail",
-          () => {
-            console.log("Caught");
-            navigate("/dashboard");
-          }
+          "/dashboard",
+          "All"
         );
       }
     } catch (error) {
@@ -64,6 +63,7 @@ const Register = () => {
   };
   return (
     <AuthLayout>
+      <OtpModal />
       <Helmet>
         <meta name="description" content="Create a Swap2Naira Account" />
         <title>Create an Account</title>
@@ -108,8 +108,8 @@ const Register = () => {
         onChange={(e) => setPassword(e.target.value)}
         id="password"
       />
-      <button onClick={handleRegister}>
-        {isLoading ? "Loading..." : "Register"}
+      <button className="flex justify-center" onClick={handleRegister}>
+        {isLoading ? <Loader /> : "Register"}
       </button>
 
       {error && <p className="text-red-500 text-center">{error}</p>}

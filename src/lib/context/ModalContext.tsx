@@ -5,15 +5,17 @@ export const ModalContext = createContext({});
 export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   const [isModalOpen, SetModalOpen] = useState(true);
   const [email, setModalEmail] = useState("");
-  const [onVerify, setOnVerify] = useState<() => void>(() => {});
+  const [onVerify, setOnVerify] = useState<string | null>(null);
   const [description, setDescription] = useState("");
-  const openModal = (desc: string, onVerifyarg: () => void) => {
+  const [reason, setReason] = useState("");
+  const openModal = (desc: string, onVerifyarg: string, reasonarg: string) => {
     setOnVerify(onVerifyarg);
     setDescription(desc);
     SetModalOpen(true);
+    setReason(reasonarg);
   };
   const closeModal = () => {
-    setOnVerify(() => {});
+    setOnVerify("");
     SetModalOpen(false);
     setDescription("");
   };
@@ -27,6 +29,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
         openModal,
         closeModal,
         description,
+        reason,
       }}
     >
       {children}

@@ -9,7 +9,7 @@ const Modal = ({ children }: { children: React.ReactNode }) => {
   const { isModalOpen, closeModal } = useModal() as ModalContext;
   return (
     <div
-      className={`fixed text-black top-0 z-20 left-0 flex justify-center w-full h-screen items-center backdrop-blur-sm ${
+      className={`fixed px-5 text-black top-0 z-20 left-0 flex justify-center w-full h-screen items-center backdrop-blur-sm ${
         isModalOpen
           ? "opacity-100 pointer-events-auto"
           : "opacity-0 pointer-events-none"

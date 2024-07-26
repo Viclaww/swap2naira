@@ -6,7 +6,6 @@ import { Provider } from "react-redux";
 import { store } from "./lib/store";
 import { ModalProvider } from "./lib/context/ModalContext";
 import { HelmetProvider } from "react-helmet-async";
-import OtpModal from "./components/OtpModal";
 import { UserProvider } from "./lib/context/UserContext";
 
 function App() {
@@ -18,8 +17,7 @@ function App() {
         <ModalProvider>
           <UserProvider>
             <div className=" relative overflow-hidden font-poppins">
-              <RouterProvider router={router} />
-              <OtpModal />
+              <RouterProvider router={router}></RouterProvider>
             </div>
           </UserProvider>
         </ModalProvider>

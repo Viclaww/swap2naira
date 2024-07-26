@@ -44,7 +44,7 @@ const Notifications: React.FC<Props> = ({ show, setShow }) => {
     if ("status" in error) {
       if (error.status == 403) {
         console.log("here");
-        // navigate("/login");
+        navigate("/login");
         return;
       }
     }
@@ -66,7 +66,7 @@ const Notifications: React.FC<Props> = ({ show, setShow }) => {
         setCurrentTab={setCurrentTab}
         tabs={tabs}
       />
-      <div className=" h-[90vh] md:min-h-[40vh]  justify-center items-center overflow-y-auto md:h-auto md:max-h-[80vh] flex rounded-md flex-col gap-3 w-full ">
+      <div className=" h-[90vh] md:min-h-[40vh] items-center overflow-y-auto md:h-auto md:max-h-[80vh] flex rounded-md flex-col gap-3 w-full ">
         {isFetching ? (
           <Loader />
         ) : error ? (

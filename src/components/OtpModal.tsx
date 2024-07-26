@@ -1,4 +1,4 @@
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect } from "react";
 import Modal from "./ModalComp";
 import { useVerifyEmailMutation } from "@/lib/api/generalApi";
 import { useModal } from "@/lib/context/exports";
@@ -7,11 +7,14 @@ import { ModalContext } from "@/lib/types";
 import { Box } from "@mui/system";
 import OTP from "./OtpComp";
 import Loader from "./loader";
+import { useNavigate } from "react-router-dom";
 
 const OtpModal = () => {
   const [otp, setOtp] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [verifyEmail, { isLoading }] = useVerifyEmailMutation();
+
+  const navigate = useNavigate();
 
   const { closeModal, email, onVerify, description } =
     useModal() as ModalContext;
@@ -22,7 +25,7 @@ const OtpModal = () => {
       const responce = await verifyEmail({ otp: otp, email });
 
       if (responce.data && responce.data.success) {
-        onVerify();
+        navigate(onVerify);
         closeModal();
       }
       if (responce.error) {
@@ -38,6 +41,35 @@ const OtpModal = () => {
       console.error(error);
     }
   };
+
+  const [timer, setTimer] = useState<number>(60);
+  const [isTimerActive, setIsTimerActive] = useState<boolean>(false);
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+
+    if (isTimerActive) {
+      interval = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    }
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [isTimerActive]);
+
+  const handleResend = () => {
+    // Logic to resend OTP
+    setIsTimerActive(true);
+    setTimer(60);
+  };
+
+  useEffect(() => {
+    if (timer === 0) {
+      setIsTimerActive(false);
+    }
+  }, [timer]);
 
   return (
     <Modal>
@@ -62,7 +94,13 @@ const OtpModal = () => {
           {isLoading ? <Loader /> : "Submit"}
         </button>
         {error && <p className="text-red-500 text-center">{error}</p>}
-        <p>Didn't get Code? Resend</p>
+        {isTimerActive ? (
+          <p>Resend OTP in {timer} seconds</p>
+        ) : (
+          <p onClick={handleResend} className="cursor-pointer">
+            Resend OTP
+          </p>
+        )}
       </div>
     </Modal>
   );

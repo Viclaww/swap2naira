@@ -29,10 +29,11 @@ export const generalApi = createApi({
         body: body,
       }),
     }),
-    resendOTP: build.query({
-      query: () => ({
-        url: "/auth/resend/test@gmail.com",
-        method: "GET",
+    resendForgotPasswordOTP: build.mutation({
+      query: (email: string) => ({
+        url: "/auth/resend-forgot-password",
+        method: "POST",
+        body: { email },
       }),
     }),
     verifyEmail: build.mutation({
@@ -47,6 +48,11 @@ export const generalApi = createApi({
         url: "/auth/verify-forgot-password",
         method: "POST",
         body,
+      }),
+    }),
+    resendVerifyEmail: build.query({
+      query: (email: string) => ({
+        url: `auth/resend${email}`,
       }),
     }),
     logoutUser: build.query({
@@ -64,6 +70,7 @@ export const generalApi = createApi({
         },
       }),
     }),
+
     getNotifications: build.query({
       query: ({ token, page }: { token: string; page?: number }) => ({
         url: `/notification?page=${page ? page : 1}`,
@@ -87,4 +94,6 @@ export const {
   useForgotPasswordMutation,
   useVerifyForgotPassMutation,
   useGetNotificationsQuery,
+  useResendForgotPasswordOTPMutation,
+  useLazyResendVerifyEmailQuery,
 } = generalApi;

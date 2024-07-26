@@ -57,9 +57,10 @@ export type userContext = {
 export type ModalContext = {
   isModalOpen: boolean;
   closeModal: () => void;
-  openModal: (desc: string, onVerify: () => void) => void;
+  openModal: (desc: string, onVerify: string, reason: string) => void;
   setModalEmail: (email: string) => void;
   description: string;
   email: string;
-  onVerify: () => void;
+  onVerify: string;
+  reason: "Forgot-Password" | "Verify-Email";
 };
