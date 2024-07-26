@@ -44,7 +44,7 @@ const Notifications: React.FC<Props> = ({ show, setShow }) => {
     if ("status" in error) {
       if (error.status == 403) {
         console.log("here");
-        navigate("/login");
+        // navigate("/login");
         return;
       }
     }

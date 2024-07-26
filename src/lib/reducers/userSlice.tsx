@@ -1,11 +1,10 @@
-import { getCookie } from "@/utils/functions";
 import { createSlice } from "@reduxjs/toolkit";
 import { TUser } from "../types";
 
 const userSlice = createSlice({
   name: "User",
   initialState: {
-    token: "" || getCookie("token"),
+    token: sessionStorage.getItem("s2n-token") || "",
     user: null,
     notifications: [],
     wallet: null,

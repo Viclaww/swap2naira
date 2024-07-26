@@ -5,7 +5,7 @@ import { FormEvent, useState } from "react";
 import { useRegisterMutation } from "../../lib/api/generalApi";
 import { useModal } from "@/lib/context/exports";
 import { setToken } from "@/lib/reducers/userSlice";
-import { getFirstField, saveCookie } from "@/utils/functions";
+import { getFirstField } from "@/utils/functions";
 import { useAppDispatch } from "@/lib/hooks";
 import { ModalContext } from "@/lib/types";
 
@@ -48,11 +48,14 @@ const Register = () => {
         console.log("Data", responce.data);
         setModalEmail(email);
         console.log("Token", responce.data.data.token);
-        saveCookie("token", responce.data.data.token, 7);
-        dispatch(setToken(responce.data.token));
+        sessionStorage.setItem("s2n-token", responce.data.data.token);
+        dispatch(setToken(responce.data.data.token));
         openModal(
           "Verify your Email. We have sent an OTP to your Mail. fill the OTP to verify Mail",
-          () => navigate("/dashboard")
+          () => {
+            console.log("Caught");
+            navigate("/dashboard");
+          }
         );
       }
     } catch (error) {
