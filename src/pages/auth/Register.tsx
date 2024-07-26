@@ -17,7 +17,7 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [referralCode, setreferralCode] = useState("");
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   const { openModal, setModalEmail } = useModal() as ModalContext;
 
@@ -37,7 +37,12 @@ const Register = () => {
 
       if (responce.error) {
         console.log("Error", responce.error);
-        setError(getFirstField(responce.error?.data?.data)[0]);
+        setError(
+          getFirstField(
+            (error as { data?: { data?: { [x: string]: unknown } } })?.data
+              ?.data as { [x: string]: unknown }
+          )
+        );
       }
       if (responce.data) {
         console.log("Data", responce.data);

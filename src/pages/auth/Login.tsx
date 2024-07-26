@@ -36,12 +36,13 @@ const Login = () => {
         if ("status" in error && error.status == 401) {
           setErrmsg("Incorrect Username or Password");
         }
-        console, log(typeof error);
+        console.log("ty", typeof error);
+
         setErrmsg(
           getFirstField(
             (error as { data?: { data?: { [x: string]: unknown } } })?.data
               ?.data as { [x: string]: unknown }
-          )[0]
+          )
         );
       }
       if (data && !data.success) {

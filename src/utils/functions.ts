@@ -1,9 +1,11 @@
-export const getFirstField = (obj: { [x: string]: unknown }) => {
-  const keys = Object.keys(obj);
-  if (keys.length > 0) {
-    return obj[keys[0]];
+export const getFirstField = (data: { [x: string]: unknown }): string => {
+  if (data) {
+    const keys = Object.keys(data);
+    if (keys.length > 0) {
+      return data[keys[0]] as string;
+    }
   }
-  return undefined;
+  return "";
 };
 
 export const saveCookie = (name: string, value: string, days: number) => {
