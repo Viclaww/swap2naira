@@ -4,7 +4,6 @@ import { Helmet } from "react-helmet-async";
 import { FormEvent, useState } from "react";
 import { useRegisterMutation } from "../../lib/api/generalApi";
 import { useModal } from "@/lib/context/exports";
-import OtpModal from "@/components/OtpModal";
 import { setToken } from "@/lib/reducers/userSlice";
 import { getFirstField, saveCookie } from "@/utils/functions";
 import { useAppDispatch } from "@/lib/hooks";
@@ -18,11 +17,11 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [referralCode, setreferralCode] = useState("");
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   const { openModal, setModalEmail } = useModal() as ModalContext;
 
-  const [register, { data, isLoading, isError }] = useRegisterMutation();
+  const [register, { isLoading }] = useRegisterMutation();
   const handleRegister = async (e: FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -38,7 +37,12 @@ const Register = () => {
 
       if (responce.error) {
         console.log("Error", responce.error);
-        setError(getFirstField(responce.error?.data?.data)[0]);
+        setError(
+          getFirstField(
+            (responce.error as { data?: { data?: { [x: string]: unknown } } })
+              ?.data?.data as { [x: string]: unknown }
+          )
+        );
       }
       if (responce.data) {
         console.log("Data", responce.data);

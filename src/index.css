@@ -22,13 +22,33 @@
     width: 20px;
     aspect-ratio: 1;
     border-radius: 50%;
-    border: 4px solid lightblue;
+    border: 2px solid lightblue;
     border-right-color: blue;
-    animation: l2 1s infinite linear;
+    animation: l2 0.4s infinite linear;
   }
   @keyframes l2 {
     to {
       transform: rotate(1turn);
     }
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #888;
+    border-radius: 5px;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    @apply bg-blueX;
+    border-radius: 5px;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
   }
 }

@@ -34,12 +34,15 @@ const Login = () => {
       }
       if (error) {
         if ("status" in error && error.status == 401) {
-          setErrmsg("Incorrect Email or Password");
+          setErrmsg("Incorrect Username or Password");
+          return;
         }
+
         setErrmsg(
           getFirstField(
-            (error as unknown)?.data?.data as { [x: string]: unknown }
-          )[0]
+            (error as { data?: { data?: { [x: string]: unknown } } })?.data
+              ?.data as { [x: string]: unknown }
+          )
         );
       }
       if (data && !data.success) {
@@ -49,6 +52,7 @@ const Login = () => {
       console.log("Error Loging in", "Please Check your Internet connection");
     }
   };
+
   return (
     <AuthLayout>
       <Helmet>

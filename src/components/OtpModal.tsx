@@ -27,7 +27,12 @@ const OtpModal = () => {
       if (responce.error) {
         inputRefs.current[0]?.focus();
         setOtp(["", "", "", "", "", ""]);
-        setError(getFirstField(responce.error?.data?.data)[0]);
+        setError(
+          getFirstField(
+            (error as { data?: { data?: { [x: string]: unknown } } })?.data
+              ?.data as { [x: string]: unknown }
+          )
+        );
       }
     } catch (error) {
       console.error(error);
