@@ -78,7 +78,7 @@ const Register = () => {
         name="usernane"
         value={userName}
         onChange={(e) => setUsername(e.target.value)}
-        id="usernane"
+        id="Username"
         placeholder="usernane"
       />
       <input
@@ -95,7 +95,7 @@ const Register = () => {
         id="referral_code"
         value={referralCode}
         onChange={(e) => setreferralCode(e.target.value)}
-        placeholder="referral_code optional"
+        placeholder="Referral code (optional)"
       />
       <input
         type="password"

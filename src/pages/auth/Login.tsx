@@ -66,7 +66,7 @@ const Login = () => {
         required={true}
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        placeholder="Email or Phone"
+        placeholder="Email"
       />
       <input
         type="password"
