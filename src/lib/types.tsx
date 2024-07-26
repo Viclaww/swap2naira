@@ -16,6 +16,13 @@ export interface LoginResponse {
   };
 }
 
+export type TNotification = {
+  uuid: string;
+  created_at: string;
+  is_read: boolean;
+  message: string;
+};
+
 export type TUser = {
   uuid: string;
   username: string;

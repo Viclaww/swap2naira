@@ -58,7 +58,15 @@ export const generalApi = createApi({
     getUser: build.query({
       query: (token: string) => ({
         url: "/auth/user",
-
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    }),
+    getNotifications: build.query({
+      query: ({ token, page }: { token: string; page?: number }) => ({
+        url: `/notification?page=${page ? page : 1}`,
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -78,4 +86,5 @@ export const {
   useRegisterMutation,
   useForgotPasswordMutation,
   useVerifyForgotPassMutation,
+  useGetNotificationsQuery,
 } = generalApi;
