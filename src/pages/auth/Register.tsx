@@ -82,7 +82,7 @@ const Register = () => {
         value={userName}
         onChange={(e) => setUsername(e.target.value)}
         id="Username"
-        placeholder="usernane"
+        placeholder="Username"
       />
       <input
         type="number"
