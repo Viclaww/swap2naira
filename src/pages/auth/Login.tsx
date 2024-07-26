@@ -34,7 +34,6 @@ const Login = () => {
       }
       if (error) {
         if ("status" in error && error.status == 401) {
-          console.log("here");
           setErrmsg("Incorrect Username or Password");
           return;
         }
@@ -54,7 +53,6 @@ const Login = () => {
     }
   };
 
-  console.log(errmsg);
   return (
     <AuthLayout>
       <Helmet>

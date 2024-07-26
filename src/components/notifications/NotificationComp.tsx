@@ -10,7 +10,7 @@ const NotifictaionComp: React.FC<TNotification> = ({
   return (
     <div
       className={`text-black px-5 min-h-[100px] w-full flex flex-col justify-center rounded-xl   cursor-pointer bg-white border  overflow-hidden  ${
-        is_read ? "" : "bg-blueX/30"
+        is_read ? "" : "bg-blueX/50"
       }`}
       key={uuid}
     >

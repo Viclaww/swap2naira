@@ -7,12 +7,15 @@ type Tab = {
 
 interface Props {
   tabs: Tab[];
+  currentTab?: string;
+  setCurrentTab?: (tab: string) => void;
 }
 
-const TabComp: React.FC<Props> = ({ tabs }) => {
-  const [selectedTab, setSelectedTab] = useState(tabs[0].name);
+const TabComp: React.FC<Props> = ({ tabs, currentTab, setCurrentTab }) => {
+  const [selectedTab, setSelectedTab] = useState(currentTab || tabs[0].name);
 
   const handleSelectedTab = (tab: string) => {
+    setCurrentTab && setCurrentTab(tab);
     setSelectedTab(tab);
   };
   return (
