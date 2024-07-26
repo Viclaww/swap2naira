@@ -22,7 +22,7 @@ const Login = () => {
 
     try {
       const reqdata = {
-        username: email,
+        email: email,
         password,
       };
       const { data, error } = await login(reqdata);
@@ -66,7 +66,7 @@ const Login = () => {
         required={true}
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        placeholder="Email or Phone"
+        placeholder="Email"
       />
       <input
         type="password"
