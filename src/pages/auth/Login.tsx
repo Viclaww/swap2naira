@@ -22,7 +22,7 @@ const Login = () => {
 
     try {
       const reqdata = {
-        username: email,
+        email: email,
         password,
       };
       const { data, error } = await login(reqdata);
@@ -34,7 +34,7 @@ const Login = () => {
       }
       if (error) {
         if ("status" in error && error.status == 401) {
-          setErrmsg("Incorrect Username or Password");
+          setErrmsg("Incorrect Email or Password");
         }
         setErrmsg(
           getFirstField(
