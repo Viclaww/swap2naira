@@ -56,9 +56,12 @@ export const generalApi = createApi({
       }),
     }),
     logoutUser: build.query({
-      query: () => ({
+      query: (token: string) => ({
         url: "/auth/logout",
         method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }),
     }),
     getUser: build.query({
@@ -70,7 +73,6 @@ export const generalApi = createApi({
         },
       }),
     }),
-
     getNotifications: build.query({
       query: ({ token, page }: { token: string; page?: number }) => ({
         url: `/notification?page=${page ? page : 1}`,
@@ -96,4 +98,5 @@ export const {
   useGetNotificationsQuery,
   useResendForgotPasswordOTPMutation,
   useLazyResendVerifyEmailQuery,
+  useLazyLogoutUserQuery,
 } = generalApi;

@@ -1,14 +1,19 @@
 import React from "react";
 import { Home2, Wallet3, Book, Logout, Setting2 } from "iconsax-react";
 import { NavLink, useLocation } from "react-router-dom";
+import { useLazyLogoutUserQuery } from "@/lib/api/generalApi";
+import { useAppSelector } from "@/lib/hooks";
 
 interface Prop {
   children: React.ReactNode;
 }
 
 const DashNavbarLayout: React.FC<Prop> = ({ children }) => {
+  const token = useAppSelector((state) => state.user.token);
+
   const location = useLocation().pathname;
-  console.log(location);
+  const [logoutUser] = useLazyLogoutUserQuery();
+
   const links = [
     {
       path: "/dashboard",
@@ -60,7 +65,14 @@ const DashNavbarLayout: React.FC<Prop> = ({ children }) => {
           </NavLink>
         ))}
 
-        <div className="w-full flex flex-col before:bg-white md:before:w-1 before:h-0 hover:before:h-full before:duration-200 before:absolute before:rounded before:-left-0 relative   gap-1 justify-center md:py-9 items-center cursor-pointer ">
+        <div
+          onClick={() => {
+            logoutUser(token);
+            sessionStorage.removeItem("token");
+            window.location.href = "/login";
+          }}
+          className="w-full flex flex-col before:bg-white md:before:w-1 before:h-0 hover:before:h-full before:duration-200 before:absolute before:rounded before:-left-0 relative   gap-1 justify-center md:py-9 items-center cursor-pointer "
+        >
           <Logout size="24" color="#ADD8E6" />
           <span className="text-xs">Logout</span>
         </div>

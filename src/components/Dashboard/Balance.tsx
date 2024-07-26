@@ -1,12 +1,15 @@
 import { useUserContext } from "@/lib/context/exports";
 import { userContext } from "@/lib/types";
 import { Card, Money4 } from "iconsax-react";
-import { RiEyeCloseLine } from "react-icons/ri";
 import Skeleton from "../skeleton";
+import { useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Balance = () => {
   const { isFetching, user, error } = useUserContext() as userContext;
   console.log(isFetching);
+
+  const [balanceVisible, setBalanceVisible] = useState<boolean>(false);
   return (
     <div className="flex flex-col md:items-center justify-center px-3 gap-4 bg-blueZ py-6 rounded-lg mb-4">
       <span className="text-2xl  font-semibold">
@@ -25,6 +28,8 @@ const Balance = () => {
           ₦
           {isFetching ? (
             <Skeleton width="30%" />
+          ) : !balanceVisible ? (
+            "****"
           ) : user ? (
             ` ${user.wallet.main_balance.toFixed(2)}`
           ) : error ? (
@@ -33,8 +38,11 @@ const Balance = () => {
             ""
           )}
         </span>
-        <span>
-          <RiEyeCloseLine />
+        <span
+          onClick={() => setBalanceVisible(!balanceVisible)}
+          className="cursor-pointer"
+        >
+          {balanceVisible ? <FaEyeSlash /> : <FaEye />}
         </span>
       </div>
       <div className="flex gap-16">
