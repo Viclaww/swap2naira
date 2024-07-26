@@ -12,17 +12,18 @@ const ForgotPassword = () => {
   const [errmsg, setErrmsg] = useState<string | null>(null);
   const [ForgotPassword, { isLoading }] = useForgotPasswordMutation();
 
-  const { openModal } = useModal() as ModalContext;
+  const { openModal, setModalEmail } = useModal() as ModalContext;
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
       const { data } = await ForgotPassword({ email: email });
       if (data && data.success) {
         console.log("Success", data);
+        setModalEmail(email);
         openModal(
           "We have sent an OTP. Fill OTP to reset Password",
-          "login",
-          "All"
+          "/login",
+          "Forgot-Password"
         );
         if (data && !data.success) {
           setErrmsg("Email account does not exist");

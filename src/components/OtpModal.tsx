@@ -1,6 +1,9 @@
 import { useState, FormEvent, useEffect } from "react";
 import Modal from "./ModalComp";
-import { useVerifyEmailMutation } from "@/lib/api/generalApi";
+import {
+  useVerifyEmailMutation,
+  useVerifyForgotPassMutation,
+} from "@/lib/api/generalApi";
 import { useModal } from "@/lib/context/exports";
 import { getFirstField } from "@/utils/functions";
 import { ModalContext } from "@/lib/types";
@@ -13,22 +16,29 @@ const OtpModal = () => {
   const [otp, setOtp] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [verifyEmail, { isLoading }] = useVerifyEmailMutation();
+  const [verifyForgotPass, { isLoading: forgotLoading }] =
+    useVerifyForgotPassMutation();
 
   const navigate = useNavigate();
 
-  const { closeModal, email, onVerify, description } =
+  const { closeModal, email, reason, onVerify, description } =
     useModal() as ModalContext;
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    let responce;
     try {
-      const responce = await verifyEmail({ otp: otp, email });
+      if (reason === "Forgot-Password") {
+        responce = await verifyForgotPass({ otp: otp, email });
+      } else {
+        responce = await verifyEmail({ otp: otp, email });
+      }
 
-      if (responce.data && responce.data.success) {
+      if (responce && responce.data && responce.data.success) {
         navigate(onVerify);
         closeModal();
       }
-      if (responce.error) {
+      if (responce && responce.error) {
         setOtp("");
         setError(
           getFirstField(
@@ -47,6 +57,7 @@ const OtpModal = () => {
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
+    setIsTimerActive(true);
 
     if (isTimerActive) {
       interval = setInterval(() => {
@@ -62,7 +73,7 @@ const OtpModal = () => {
   const handleResend = () => {
     // Logic to resend OTP
     setIsTimerActive(true);
-    setTimer(60);
+    setTimer(120);
   };
 
   useEffect(() => {
@@ -91,7 +102,7 @@ const OtpModal = () => {
           onClick={handleSubmit}
           className="w-1/2 p-2 m-2 flex justify-center bg-blueX rounded-md text-white"
         >
-          {isLoading ? <Loader /> : "Submit"}
+          {isLoading || forgotLoading ? <Loader /> : "Submit"}
         </button>
         {error && <p className="text-red-500 text-center">{error}</p>}
         {isTimerActive ? (
