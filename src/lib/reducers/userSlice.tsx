@@ -7,6 +7,7 @@ const userSlice = createSlice({
   initialState: {
     token: "" || getCookie("token"),
     user: null,
+    notifications: [],
     wallet: null,
   },
 
@@ -18,6 +19,9 @@ const userSlice = createSlice({
       state.user = action.payload;
       state.wallet = action.payload.wallet;
     },
+    setNotifications: (state, action) => {
+      state.notifications = action.payload;
+    },
   },
 });
 
@@ -28,5 +32,5 @@ export const userSelector = (state: { user: { user: TUser } }) =>
 export const walletSelector = (state: { user: { wallet: TUser["wallet"] } }) =>
   state.user.wallet;
 
-export const { setToken, setUser } = userSlice.actions;
+export const { setToken, setUser, setNotifications } = userSlice.actions;
 export default userSlice.reducer;

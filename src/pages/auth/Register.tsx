@@ -39,8 +39,8 @@ const Register = () => {
         console.log("Error", responce.error);
         setError(
           getFirstField(
-            (error as { data?: { data?: { [x: string]: unknown } } })?.data
-              ?.data as { [x: string]: unknown }
+            (responce.error as { data?: { data?: { [x: string]: unknown } } })
+              ?.data?.data as { [x: string]: unknown }
           )
         );
       }

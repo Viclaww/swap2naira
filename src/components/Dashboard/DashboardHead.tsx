@@ -12,7 +12,7 @@ const DashboardHead: React.FC<Props> = ({ pageName }) => {
       <span className="text-2xl font-medium">{pageName}</span>
       <span className="text-2xl flex items-center  font-semibold">
         <RxAvatar size={30} />
-        <div>
+        <div className="md:relative">
           <Notification size="24" color="#000" />
           <Notifications />
         </div>

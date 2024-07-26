@@ -34,9 +34,10 @@ const Login = () => {
       }
       if (error) {
         if ("status" in error && error.status == 401) {
+          console.log("here");
           setErrmsg("Incorrect Username or Password");
+          return;
         }
-        console.log("ty", typeof error);
 
         setErrmsg(
           getFirstField(
@@ -52,6 +53,8 @@ const Login = () => {
       console.log("Error Loging in", "Please Check your Internet connection");
     }
   };
+
+  console.log(errmsg);
   return (
     <AuthLayout>
       <Helmet>

@@ -8,12 +8,17 @@ const NotifictaionComp: React.FC<TNotification> = ({
   is_read,
 }) => {
   return (
-    <div className={`text-black ${is_read ? "" : ""}`} key={uuid}>
-      <div>
-        <img src="/images/S2Nx.png" alt="" />
+    <div
+      className={`text-black px-5 min-h-[100px] w-full flex flex-col justify-center rounded-xl   cursor-pointer bg-white border  overflow-hidden  ${
+        is_read ? "" : "bg-blueX/30"
+      }`}
+      key={uuid}
+    >
+      <div className="flex items-center justify-between gap-6">
+        <img className="w-[40px] h-[40px] p-2" src="/images/S2Nx.png" alt="" />
+        <span className="text-sm">{created_at}</span>
       </div>
-      <div>{message}</div>
-      <div>{created_at}</div>
+      <p className="text-xs">{message}</p>
     </div>
   );
 };
