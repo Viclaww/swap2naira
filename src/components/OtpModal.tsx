@@ -83,7 +83,6 @@ const OtpModal = () => {
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
-    setIsTimerActive(true);
 
     if (isTimerActive) {
       interval = setInterval(() => {
@@ -126,10 +125,10 @@ const OtpModal = () => {
         </button>
         {error && <p className="text-red-500 text-center">{error}</p>}
         {isTimerActive ? (
-          <p>Resend OTP in {timer} seconds</p>
+          <p className="font-medium">Resend OTP in {timer} seconds</p>
         ) : (
-          <p onClick={handleResendOtp} className="cursor-pointer">
-            Resend OTP
+          <p onClick={handleResendOtp} className="cursor-pointer font-medium">
+            Resend Code
           </p>
         )}
       </div>

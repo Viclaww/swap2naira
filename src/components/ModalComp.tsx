@@ -1,12 +1,11 @@
 import { useModal } from "../lib/context/exports";
-import { BiX } from "react-icons/bi";
 
 type ModalContext = {
   isModalOpen: boolean;
   closeModal: () => void;
 };
 const Modal = ({ children }: { children: React.ReactNode }) => {
-  const { isModalOpen, closeModal } = useModal() as ModalContext;
+  const { isModalOpen } = useModal() as ModalContext;
   return (
     <div
       className={`fixed px-5 text-black top-0 z-20 left-0 flex justify-center w-full h-screen items-center backdrop-blur-sm ${
@@ -22,12 +21,6 @@ const Modal = ({ children }: { children: React.ReactNode }) => {
             : "translate-y-full opacity-0 pointer-events-none"
         }`}
       >
-        <span
-          className="absolute top-5 right-5 cursor-pointer"
-          onClick={closeModal}
-        >
-          <BiX size={30} />
-        </span>
         {children}
       </div>
     </div>

@@ -62,7 +62,7 @@ const Register = () => {
     }
   };
   return (
-    <AuthLayout>
+    <AuthLayout desc="Create a Swap2Naira Account.">
       <OtpModal />
       <Helmet>
         <meta name="description" content="Create a Swap2Naira Account" />

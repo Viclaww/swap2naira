@@ -34,12 +34,13 @@ const ForgotPassword = () => {
     }
   };
   return (
-    <AuthLayout>
+    <AuthLayout desc="Fill email to retrive account access">
       <Helmet>
         <meta name="description" content="Reset your password" />
         <title>Forgot Password</title>
       </Helmet>
       <OtpModal />
+
       <input
         type="text"
         name="Email"

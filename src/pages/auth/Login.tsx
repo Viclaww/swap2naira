@@ -54,7 +54,7 @@ const Login = () => {
   };
 
   return (
-    <AuthLayout>
+    <AuthLayout desc="Log in to your Swap2Naira account.">
       <Helmet>
         <meta name="description" content="Log in to you Swap2Naira Account" />
         <title>Login</title>

@@ -35,10 +35,7 @@ const ChangePasswordComp = () => {
     }
   };
   return (
-    <AuthLayout>
-      <p className="text-center font-medium">
-        You are ready to update your password
-      </p>
+    <AuthLayout desc="You are ready to update your password">
       <input
         type="password"
         id="email"
