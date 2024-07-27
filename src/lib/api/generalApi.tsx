@@ -104,7 +104,6 @@ export const {
   useVerifyForgotPassMutation,
   useGetNotificationsQuery,
   useResendForgotPasswordOTPMutation,
-  useLazyResendVerifyEmailQuery,
   useLazyLogoutUserQuery,
   useChangePasswordMutation,
   useLazyResendVerifyEmailQuery,
