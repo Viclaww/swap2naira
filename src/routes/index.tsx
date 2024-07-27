@@ -9,13 +9,15 @@ import Settings from "../pages/Dashboard/Settings";
 import ProfileSettings from "../components/Settings/ProfileSettings";
 import SecuritySettings from "../components/Settings/SecuritySettings";
 import ForgotPassword from "@/pages/auth/ForgotPassword";
+import ChangePasswordComp from "@/pages/auth/ChangePassword";
 
 const routes = [
   { path: "/", element: <Home /> },
   { path: "/login", element: <Login /> },
   { path: "/register", element: <Register /> },
   { path: "/dashboard", element: <DashboardHome /> },
-  { path: "forgot-password", element: <ForgotPassword /> },
+  { path: "/forgot-password", element: <ForgotPassword /> },
+  { path: "/change-password", element: <ChangePasswordComp /> },
   {
     path: "/dashboard/settings",
     element: <Settings />,
@@ -24,7 +26,7 @@ const routes = [
       { path: "Security", element: <SecuritySettings /> },
     ],
   },
-  // { path: "/dashboard/ranking", element: <Ranking /> },
+
   { path: "/dashboard/history", element: <History /> },
   { path: "/dashboard/wallet", element: <Wallet /> },
 ];

@@ -22,7 +22,7 @@ const ForgotPassword = () => {
         setModalEmail(email);
         openModal(
           "We have sent an OTP. Fill OTP to reset Password",
-          "/login",
+          "/change-password",
           "Forgot-Password"
         );
         if (data && !data.success) {

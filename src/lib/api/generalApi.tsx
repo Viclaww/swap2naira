@@ -50,6 +50,13 @@ export const generalApi = createApi({
         body,
       }),
     }),
+    changePassword: build.mutation({
+      query: (body) => ({
+        url: "/auth/change-password",
+        method: "POST",
+        body,
+      }),
+    }),
     resendVerifyEmail: build.query({
       query: (email: string) => ({
         url: `auth/resend${email}`,
@@ -99,4 +106,6 @@ export const {
   useResendForgotPasswordOTPMutation,
   useLazyResendVerifyEmailQuery,
   useLazyLogoutUserQuery,
+  useChangePasswordMutation,
+  useLazyResendVerifyEmailQuery,
 } = generalApi;

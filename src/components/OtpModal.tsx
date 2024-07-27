@@ -1,6 +1,8 @@
 import { useState, FormEvent, useEffect } from "react";
 import Modal from "./ModalComp";
 import {
+  useLazyResendVerifyEmailQuery,
+  useResendForgotPasswordOTPMutation,
   useVerifyEmailMutation,
   useVerifyForgotPassMutation,
 } from "@/lib/api/generalApi";
@@ -18,11 +20,35 @@ const OtpModal = () => {
   const [verifyEmail, { isLoading }] = useVerifyEmailMutation();
   const [verifyForgotPass, { isLoading: forgotLoading }] =
     useVerifyForgotPassMutation();
+  const [resendForgotPasswordOTP] = useResendForgotPasswordOTPMutation();
+  const [resendVerifyEmail] = useLazyResendVerifyEmailQuery();
 
   const navigate = useNavigate();
 
   const { closeModal, email, reason, onVerify, description } =
     useModal() as ModalContext;
+
+  const handleResendOtp = async () => {
+    let responce;
+    setIsTimerActive(true);
+    setTimer(60);
+    try {
+      if (reason === "Forgot-Password") {
+        responce = await resendForgotPasswordOTP(email);
+      } else {
+        responce = await resendVerifyEmail(email);
+      }
+
+      const { data, error } = responce;
+      if (data && data.success) {
+        setError("Sent Check Mail!");
+      } else if (error) {
+        console.error(error);
+      }
+    } catch (error) {
+      console.log("Please check Internet");
+    }
+  };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -44,7 +70,7 @@ const OtpModal = () => {
           getFirstField(
             (error as { data?: { data?: { [x: string]: unknown } } })?.data
               ?.data as { [x: string]: unknown }
-          )
+          ) || "Wrong Code. Retry"
         );
       }
     } catch (error) {
@@ -69,12 +95,6 @@ const OtpModal = () => {
       clearInterval(interval);
     };
   }, [isTimerActive]);
-
-  const handleResend = () => {
-    // Logic to resend OTP
-    setIsTimerActive(true);
-    setTimer(120);
-  };
 
   useEffect(() => {
     if (timer === 0) {
@@ -108,7 +128,7 @@ const OtpModal = () => {
         {isTimerActive ? (
           <p>Resend OTP in {timer} seconds</p>
         ) : (
-          <p onClick={handleResend} className="cursor-pointer">
+          <p onClick={handleResendOtp} className="cursor-pointer">
             Resend OTP
           </p>
         )}
