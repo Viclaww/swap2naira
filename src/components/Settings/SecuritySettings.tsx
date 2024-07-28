@@ -3,9 +3,13 @@ import Flip from "gsap/Flip";
 import gsap from "gsap";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { useUserContext } from "@/lib/context/exports";
-import { useSetWithdrawalPinMutation } from "@/lib/api/settingsApi";
+import {
+  useChangeWithdrawalPinMutation,
+  useSetWithdrawalPinMutation,
+} from "@/lib/api/settingsApi";
 import { useAppSelector } from "@/lib/hooks";
 import Loader from "../loader";
+import { toast } from "react-toastify";
 
 gsap.registerPlugin(Flip);
 
@@ -159,27 +163,51 @@ export const ChangeWithdrawalPin = () => {
   const [newPin, setNewPin] = useState("");
   const token = useAppSelector((state) => state.user.token);
   const [setWithdrawalPin, { isLoading }] = useSetWithdrawalPinMutation();
+  const [ChangeWithdrawalPin, { isLoading: changeLoading }] =
+    useChangeWithdrawalPinMutation();
   const { user } = useUserContext();
   let wallet;
+  let isPin: boolean | undefined;
   if (user) {
     wallet = user.wallet;
   }
-  let isPin;
+
+  // Rest of the code...
   if (wallet) {
     isPin = wallet.is_pin;
   }
 
-  const action = setWithdrawalPin;
+  const handlePinChange =
+    (setter: React.Dispatch<React.SetStateAction<string>>) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+      const onlyNumbers = value.replace(/\D/g, ""); // Remove non-numeric characters
+      if (onlyNumbers.length <= 4) {
+        setter(onlyNumbers);
+      }
+    };
+  const action = () => {
+    if (isPin) {
+      return ChangeWithdrawalPin({ token, old_pin: oldPin, new_pin: newPin });
+    }
+    return setWithdrawalPin({ token, pin: newPin });
+  };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      const { data, error } = await action({ token, pin: newPin });
+      const { data, error } = await action();
       if (data) {
         console.log(data);
+        if (isPin) {
+          if (data.success) {
+            toast.success(data.message);
+          }
+        }
       }
-      if (error) {
+      if (error && "data" in error) {
         console.log(error);
+        toast.error((error.data as { message: string }).message);
       }
     } catch (error) {
       console.log("Bad, error");
@@ -192,23 +220,23 @@ export const ChangeWithdrawalPin = () => {
           className="px-4 py-3 w-full  md:w-2/3 outline-none rounded-full placeholder:text-black/60  bg-blueX/20"
           placeholder="Old pin"
           value={oldPin}
-          onChange={(e) => setOldPin(e.target.value)}
-          type="number"
+          onChange={(e) => handlePinChange(setOldPin)(e)}
+          type="text"
         />
       )}
 
       <input
         className="px-4 py-3  w-full md:w-2/3 outline-none rounded-full placeholder:text-black/60  bg-blueX/20"
         placeholder="New pin"
-        type="number"
+        type="text"
         value={newPin}
-        onChange={(e) => setNewPin(e.target.value)}
+        onChange={(e) => handlePinChange(setNewPin)(e)}
       />
       <button
         onClick={handleSubmit}
         className="px-4 py-3 rounded-full flex justify-center outline-none bg-blueX  md:w-2/3 cursor-pointer"
       >
-        {isLoading ? <Loader /> : "Change Pin"}
+        {isLoading || changeLoading ? <Loader /> : "Change Pin"}
       </button>
     </>
   );

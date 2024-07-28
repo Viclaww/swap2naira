@@ -45,7 +45,7 @@ export type TUser = {
     user_id: string | number;
     uuid: string;
     pin: string | number;
-    is_pin: number;
+    is_pin: boolean;
   };
 };
 
