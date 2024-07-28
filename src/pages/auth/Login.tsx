@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet-async";
 import { FormEvent, useState } from "react";
 import { useLoginMutation } from "../../lib/api/generalApi";
 import { setToken } from "@/lib/reducers/userSlice";
-import { getFirstField, saveCookie } from "@/utils/functions";
+import { getFirstField } from "@/utils/functions";
 import { useAppDispatch } from "@/lib/hooks";
 import Loader from "@/components/loader";
 
@@ -30,7 +30,7 @@ const Login = () => {
       if (data && data.success) {
         navigate("/dashboard");
         dispatch(setToken(data.data.token));
-        saveCookie("token", data.data.token, 7);
+        sessionStorage.setItem("s2n-token", data.data.token);
       }
       if (error) {
         if ("status" in error && error.status == 401) {

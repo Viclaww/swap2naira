@@ -10,6 +10,11 @@ import ProfileSettings from "../components/Settings/ProfileSettings";
 import SecuritySettings from "../components/Settings/SecuritySettings";
 import ForgotPassword from "@/pages/auth/ForgotPassword";
 import ChangePasswordComp from "@/pages/auth/ChangePassword";
+import {
+  ChangePassword,
+  ChangeWithdrawalPin,
+  ResetPin,
+} from "../components/Settings/SecuritySettings";
 
 const routes = [
   { path: "/", element: <Home /> },
@@ -23,7 +28,15 @@ const routes = [
     element: <Settings />,
     children: [
       { path: "profile", element: <ProfileSettings /> },
-      { path: "Security", element: <SecuritySettings /> },
+      {
+        path: "Security",
+        element: <SecuritySettings />,
+        children: [
+          { path: "change-password", element: <ChangePassword /> },
+          { path: "change-withdrawal-pin", element: <ChangeWithdrawalPin /> },
+          { path: "reset-pin", element: <ResetPin /> },
+        ],
+      },
     ],
   },
 
