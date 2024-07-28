@@ -1,12 +1,12 @@
 import { useUserContext } from "@/lib/context/exports";
-import { userContext } from "@/lib/types";
+import { TUserContext } from "@/lib/types";
 import { Card, Money4 } from "iconsax-react";
 import Skeleton from "../skeleton";
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Balance = () => {
-  const { isFetching, user, error } = useUserContext() as userContext;
+  const { isFetching, user, error } = useUserContext() as TUserContext;
   console.log(isFetching);
 
   const [balanceVisible, setBalanceVisible] = useState<boolean>(false);
