@@ -45,13 +45,13 @@ export type TUser = {
     user_id: string | number;
     uuid: string;
     pin: string | number;
-    is_pin: boolean;
+    is_pin: number;
   };
 };
 
-export type userContext = {
+export type TUserContext = {
   isFetching: boolean;
-  user: TUser;
+  user: TUser | null;
   error: unknown;
 };
 export type ModalContext = {

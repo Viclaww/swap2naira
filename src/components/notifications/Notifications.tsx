@@ -43,14 +43,12 @@ const Notifications: React.FC<Props> = ({ show, setShow }) => {
     console.log(error);
     if ("status" in error) {
       if (error.status == 403) {
-        console.log("here");
         navigate("/login");
         return;
       }
     }
   }
   if (data && data.success) {
-    console.table(data.data.data);
     dispatch(setNotifications(data.data.data));
   }
   return (
