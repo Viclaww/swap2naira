@@ -1,15 +1,19 @@
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import Flip from "gsap/Flip";
 import gsap from "gsap";
 import { Link, Outlet, useLocation } from "react-router-dom";
+import { useUserContext } from "@/lib/context/exports";
+import { useSetWithdrawalPinMutation } from "@/lib/api/settingsApi";
+import { useAppSelector } from "@/lib/hooks";
+import Loader from "../loader";
 
 gsap.registerPlugin(Flip);
 
 const SecuritySettings = () => {
   const [currentTab, setCurrentTab] = useState<string | null>(null);
-  console.log(currentTab);
+
   const location = useLocation().pathname;
-  console.log(location);
+
   const securityTabs = [
     { name: "Change Password", path: "change-password" },
     { name: "Change Withdraw Pin", path: "change-withdrawal-pin" },
@@ -25,12 +29,15 @@ const SecuritySettings = () => {
     scale: true,
     // absolute: true,
   });
+
   useEffect(() => {
-    if (
-      !location.includes("change-password") ||
-      !location.includes("change-withdrawal-pin") ||
-      !location.includes("reset-pin")
-    ) {
+    if (location.includes("change-password")) {
+      setCurrentTab("Change Password");
+    } else if (location.includes("change-withdrawal-pin")) {
+      setCurrentTab("Change Withdraw Pin");
+    } else if (location.includes("reset-pin")) {
+      setCurrentTab("Reset Pin");
+    } else {
       setCurrentTab("");
     }
   }, [location]);
@@ -45,7 +52,7 @@ const SecuritySettings = () => {
         {securityTabs.map(({ name, path }, index) => (
           <Link
             to={path}
-            onClick={() => setCurrentTab(name)}
+            onClick={() => setCurrentTab(path)}
             className={` ${
               currentTab && currentTab !== name
                 ? "animate-disapp hidden bg-red-800"
@@ -148,20 +155,60 @@ export const ChangePassword = () => {
 };
 
 export const ChangeWithdrawalPin = () => {
+  const [oldPin, setOldPin] = useState("");
+  const [newPin, setNewPin] = useState("");
+  const token = useAppSelector((state) => state.user.token);
+  const [setWithdrawalPin, { isLoading }] = useSetWithdrawalPinMutation();
+  const { user } = useUserContext();
+  let wallet;
+  if (user) {
+    wallet = user.wallet;
+  }
+  let isPin;
+  if (wallet) {
+    isPin = wallet.is_pin;
+  }
+
+  const action = setWithdrawalPin;
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    try {
+      const { data, error } = await action({ token, pin: newPin });
+      if (data) {
+        console.log(data);
+      }
+      if (error) {
+        console.log(error);
+      }
+    } catch (error) {
+      console.log("Bad, error");
+    }
+  };
   return (
     <>
-      <input
-        className="px-4 py-3 w-full  md:w-2/3 outline-none rounded-full placeholder:text-black/60  bg-blueX/20"
-        placeholder="Old pin"
-        type="number"
-      />
+      {isPin && (
+        <input
+          className="px-4 py-3 w-full  md:w-2/3 outline-none rounded-full placeholder:text-black/60  bg-blueX/20"
+          placeholder="Old pin"
+          value={oldPin}
+          onChange={(e) => setOldPin(e.target.value)}
+          type="number"
+        />
+      )}
+
       <input
         className="px-4 py-3  w-full md:w-2/3 outline-none rounded-full placeholder:text-black/60  bg-blueX/20"
         placeholder="New pin"
         type="number"
+        value={newPin}
+        onChange={(e) => setNewPin(e.target.value)}
       />
-      <button className="px-4 py-3 rounded-full outline-none bg-blueX  md:w-2/3 cursor-pointer">
-        Change Pin
+      <button
+        onClick={handleSubmit}
+        className="px-4 py-3 rounded-full flex justify-center outline-none bg-blueX  md:w-2/3 cursor-pointer"
+      >
+        {isLoading ? <Loader /> : "Change Pin"}
       </button>
     </>
   );
