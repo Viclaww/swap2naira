@@ -5,6 +5,7 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 import { useUserContext } from "@/lib/context/exports";
 import {
   useChangeWithdrawalPinMutation,
+  useProfileChangePasswordMutation,
   useSetWithdrawalPinMutation,
 } from "@/lib/api/settingsApi";
 import { useAppSelector } from "@/lib/hooks";
@@ -131,28 +132,73 @@ const SecuritySettings = () => {
 };
 
 export const ChangePassword = () => {
+  const [oldPass, setOldpass] = useState("");
+  const [newPass, setNewpass] = useState("");
+  const [confirmNewPass, setConfirmNewpass] = useState("");
+  const token = useAppSelector((state) => state.user.token);
+
+  const [profileChangePassword, { isLoading }] =
+    useProfileChangePasswordMutation();
+
+  const handleChangeinput =
+    (setter: React.Dispatch<React.SetStateAction<string>>) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setter(e.target.value);
+    };
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    try {
+      if (newPass !== confirmNewPass) {
+        toast.error("Passwords don't match");
+        return;
+      }
+      const { data, error } = await profileChangePassword({
+        token,
+        old_password: oldPass,
+        new_password: newPass,
+      });
+
+      if (data) {
+        toast.success(data.messagex);
+      }
+      if (error && "data" in error) {
+        console.log(error);
+        toast.error((error.data as { message: string }).message);
+      }
+    } catch (error) {
+      toast.error(`Error: ${error}`);
+    }
+  };
   return (
     <>
       <input
         className="px-4 py-3  w-full md:w-2/3 outline-none rounded-full placeholder:text-black/60  bg-blueX/20"
         placeholder="Old password"
         type="text"
+        value={oldPass}
+        onChange={(e) => handleChangeinput(setOldpass)(e)}
       />
       <input
         className="px-4 py-3 w-full md:w-2/3 outline-none rounded-full placeholder:text-black/60  bg-blueX/20"
         placeholder="New password"
         type="text"
+        value={newPass}
+        onChange={(e) => handleChangeinput(setNewpass)(e)}
       />
       <input
         className="px-4 py-3 w-full md:w-2/3 outline-none rounded-full placeholder:text-black/60  bg-blueX/20"
         placeholder="Confirm password"
         type="text"
+        value={confirmNewPass}
+        onChange={(e) => handleChangeinput(setConfirmNewpass)(e)}
       />
       <button
-        className="px-4 py-3 w-full rounded-full outline-none bg-blueX  md:w-2/3 cursor-pointer"
+        onClick={handleSubmit}
+        className="px-4 py-3 w-full flex justify-center rounded-full outline-none bg-blueX  md:w-2/3 cursor-pointer"
         type="submit"
       >
-        Submit
+        {isLoading ? <Loader /> : "Change Password"}
       </button>
     </>
   );

@@ -22,8 +22,21 @@ export const settingsApi = generalApi.injectEndpoints({
         },
       }),
     }),
+    profileChangePassword: build.mutation({
+      query: ({ token, old_password, new_password }) => ({
+        url: "/profile/change-password",
+        method: "POST",
+        body: { old_password, new_password },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    }),
   }),
 });
 
-export const { useSetWithdrawalPinMutation, useChangeWithdrawalPinMutation } =
-  settingsApi;
+export const {
+  useSetWithdrawalPinMutation,
+  useChangeWithdrawalPinMutation,
+  useProfileChangePasswordMutation,
+} = settingsApi;
