@@ -83,7 +83,7 @@ const UserSetting = () => {
               onClick={onClick}
               className={`flex bg-blueX/10 rounded-full items-center duration-300 gap-6 cursor-pointer px-4 py-5 ${
                 current && current !== name
-                  ? "hidden md:flex"
+                  ? "hidden"
                   : current && current == name
                   ? "bg-blueX/50"
                   : ""

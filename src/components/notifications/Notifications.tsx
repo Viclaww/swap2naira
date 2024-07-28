@@ -7,6 +7,7 @@ import Loader from "../loader";
 import TabComp from "../TabComp";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 interface Props {
   show: boolean;
@@ -15,12 +16,37 @@ interface Props {
 
 const Notifications: React.FC<Props> = ({ show, setShow }) => {
   const token = useAppSelector((state) => state.user.token) as string;
-  const { data, isFetching, error } = useGetNotificationsQuery({ token });
+  const { data, isFetching, isError, error } = useGetNotificationsQuery(
+    {
+      token,
+    },
+    { pollingInterval: 10000 }
+  );
+
+  const [previousNotifications, setPreviousNotifications] = useState<
+    TNotification[]
+  >([]);
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const notifications = useAppSelector(
     (state) => state.user.notifications
   ) as TNotification[];
+
+  useEffect(() => {
+    if (!isFetching && !isError) {
+      const newNotifications = notifications.filter(
+        (notification) =>
+          !previousNotifications.some((prev) => prev.uuid === notification.uuid)
+      );
+
+      newNotifications.forEach((notification) => {
+        toast.success(`New notification: ${notification.message}`);
+      });
+
+      setPreviousNotifications(notifications);
+    }
+  }, [notifications, isFetching, isError, previousNotifications]);
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -54,7 +80,7 @@ const Notifications: React.FC<Props> = ({ show, setShow }) => {
   return (
     <div
       id="notification-bar"
-      className={`md:shadow-xl bg-white duration-500 fixed top-0 md:top-5 rounded-xl gap-3 md:w-[400px]  p-3 flex flex-col right-4 ${
+      className={`md:shadow-xl z-50 bg-white duration-500 fixed top-0 md:top-5 rounded-xl gap-3 md:w-[400px]  p-3 flex flex-col right-4 ${
         !show && "pointer-events-none opacity-0 translate-y-[10%]"
       }`}
     >
