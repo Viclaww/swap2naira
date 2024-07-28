@@ -20,7 +20,7 @@ const Notifications: React.FC<Props> = ({ show, setShow }) => {
     {
       token,
     },
-    { pollingInterval: 10000 }
+    { pollingInterval: 500000 }
   );
 
   const [previousNotifications, setPreviousNotifications] = useState<

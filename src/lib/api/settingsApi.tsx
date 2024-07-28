@@ -32,6 +32,16 @@ export const settingsApi = generalApi.injectEndpoints({
         },
       }),
     }),
+    profileUpdate: build.mutation({
+      query: ({ token, data }) => ({
+        url: "/profile/update",
+        method: "POST",
+        body: data,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    }),
   }),
 });
 
@@ -39,4 +49,5 @@ export const {
   useSetWithdrawalPinMutation,
   useChangeWithdrawalPinMutation,
   useProfileChangePasswordMutation,
+  useProfileUpdateMutation,
 } = settingsApi;
