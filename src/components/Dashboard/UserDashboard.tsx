@@ -7,6 +7,7 @@ import DashboardHead from "./DashboardHead";
 // import { TUser } from "@/lib/types";
 import { useUserContext } from "@/lib/context/exports";
 import Loader from "../loader";
+import { Link } from "react-router-dom";
 
 const UserDashboard = () => {
   const { isFetching, user } = useUserContext();
@@ -47,10 +48,13 @@ const UserDashboard = () => {
               </button>
             )}
             {!accountNumber && (
-              <button className="flex gap-3 justify-center items-center border-blueX text-blueBlack font-semibold border px-6 py-3 rounded-lg hover:bg-blueX hover:text-white hover:border-blueX">
+              <Link
+                to="/dashboard/settings/security/change-withdrawal-pin"
+                className="flex gap-3 justify-center items-center border-blueX text-blueBlack font-semibold border px-6 py-3 rounded-lg hover:bg-blueX hover:text-white hover:border-blueX"
+              >
                 <PasswordCheck size="20" color="black" />
                 <span className="">Create transaction PIN</span>
-              </button>
+              </Link>
             )}
           </div>
         </div>
