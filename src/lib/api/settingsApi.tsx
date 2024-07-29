@@ -42,6 +42,15 @@ export const settingsApi = generalApi.injectEndpoints({
         },
       }),
     }),
+    retrieveBanks: build.query({
+      query: (token) => ({
+        url: "/profile/banks",
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    }),
   }),
 });
 
@@ -50,4 +59,5 @@ export const {
   useChangeWithdrawalPinMutation,
   useProfileChangePasswordMutation,
   useProfileUpdateMutation,
+  useRetrieveBanksQuery,
 } = settingsApi;

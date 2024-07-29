@@ -49,6 +49,11 @@ export type TUser = {
   };
 };
 
+export type TBanks = {
+  id: string | number;
+  code: string;
+  name: string;
+};
 export type TUserContext = {
   isFetching: boolean;
   user: TUser | null;

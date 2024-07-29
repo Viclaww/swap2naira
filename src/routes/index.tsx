@@ -15,6 +15,7 @@ import {
   ChangeWithdrawalPin,
   ResetPin,
 } from "../components/Settings/SecuritySettings";
+import Account from "@/components/Settings/Accounts";
 
 const routes = [
   { path: "/", element: <Home /> },
@@ -28,6 +29,7 @@ const routes = [
     element: <Settings />,
     children: [
       { path: "profile", element: <ProfileSettings /> },
+      { path: "account", element: <Account /> },
       {
         path: "Security",
         element: <SecuritySettings />,

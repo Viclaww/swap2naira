@@ -5,6 +5,7 @@ import { CiLogout } from "react-icons/ci";
 import { IoIosChatboxes } from "react-icons/io";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
+import { MdAccountBalance } from "react-icons/md";
 
 interface SettingsTab {
   name: string;
@@ -51,6 +52,14 @@ const UserSetting = () => {
         navigate("/dashboard/settings/profile");
       },
       icon: (size: number) => <FaPerson size={size} />,
+    },
+    {
+      name: "Account",
+      onClick: () => {
+        setCurrent("Account");
+        navigate("/dashboard/settings/account");
+      },
+      icon: (size: number) => <MdAccountBalance size={size} />,
     },
     {
       name: "Security",

@@ -39,7 +39,7 @@ const Notifications: React.FC<Props> = ({ show, setShow }) => {
         (notification) =>
           !previousNotifications.some((prev) => prev.uuid === notification.uuid)
       );
-
+      if (newNotifications.length == notifications.length) return;
       newNotifications.forEach((notification) => {
         toast.success(`New notification: ${notification.message}`);
       });
