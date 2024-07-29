@@ -42,7 +42,7 @@ const Register = () => {
           getFirstField(
             (responce.error as { data?: { data?: { [x: string]: unknown } } })
               ?.data?.data as { [x: string]: unknown }
-          )
+          )[0]
         );
       }
       if (responce.data) {

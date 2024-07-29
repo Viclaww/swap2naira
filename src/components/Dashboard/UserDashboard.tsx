@@ -41,13 +41,16 @@ const UserDashboard = () => {
             Pending actions
           </h4>
           <div className="flex flex-col md:flex-row font-medium gap-4 my-4">
-            {!isPin && (
-              <button className="flex gap-3 justify-center items-center text-blueBlack border-blueX font-semibold border px-6 py-3 rounded-lg hover:bg-blueX hover:text-white hover:border-blueX">
+            {!accountNumber && (
+              <Link
+                to={"/dashboard/settings/account"}
+                className="flex gap-3 justify-center items-center text-blueBlack border-blueX font-semibold border px-6 py-3 rounded-lg hover:bg-blueX hover:text-white hover:border-blueX"
+              >
                 <Bank size="20" color="black" />
                 <span className="">Add a Bank Account</span>
-              </button>
+              </Link>
             )}
-            {!accountNumber && (
+            {!isPin && (
               <Link
                 to="/dashboard/settings/security/change-withdrawal-pin"
                 className="flex gap-3 justify-center items-center border-blueX text-blueBlack font-semibold border px-6 py-3 rounded-lg hover:bg-blueX hover:text-white hover:border-blueX"

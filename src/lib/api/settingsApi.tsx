@@ -42,6 +42,16 @@ export const settingsApi = generalApi.injectEndpoints({
         },
       }),
     }),
+    addAccount: build.mutation({
+      query: ({ token, body }) => ({
+        url: "/profile/add-account",
+        method: "POST",
+        body,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    }),
     retrieveBanks: build.query({
       query: (token) => ({
         url: "/profile/banks",
@@ -60,4 +70,5 @@ export const {
   useProfileChangePasswordMutation,
   useProfileUpdateMutation,
   useRetrieveBanksQuery,
+  useAddAccountMutation,
 } = settingsApi;
