@@ -67,8 +67,6 @@ const Account = () => {
   console.log(banks);
   const handleBankSelect = (bank: TBanks) => {
     setBankName(bank);
-    setSearchTerm(bank.name);
-    setDropdownVisible(false);
   };
 
   const handleOutsideClick = (event: MouseEvent) => {
@@ -152,7 +150,6 @@ const Account = () => {
               dropdownArray={filteredBanks}
               displayName="name"
               dropdownItemOnSelect={handleBankSelect}
-              visible={isDropdownVisible}
             />
           </div>
           <div className="flex flex-col">

@@ -69,3 +69,19 @@ export type ModalContext = {
   onVerify: string;
   reason: "Forgot-Password" | "Verify-Email";
 };
+
+export type TCardBrand = {
+  brand: string;
+  image: string;
+};
+
+export type TCardCategory = {
+  uuid: string;
+  id: number;
+  brand: string;
+  category: string;
+  type: string;
+  image: string;
+  rate: number;
+  active: false;
+};

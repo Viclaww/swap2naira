@@ -6,8 +6,7 @@ type Props = {
   readOnly?: boolean;
   inputValue: string;
   inputClasses?: string;
-  visible: boolean;
-  dropdownArray: TBanks[] | never[];
+  dropdownArray: TBanks[];
   dropdownItemOnSelect: (item: TBanks) => void;
   displayName: string;
   setInputValue: (value: string) => void;
@@ -47,7 +46,7 @@ const SearchDropdown: React.FC<Props> = ({
       {isDropdownVisible && inputValue && (
         <ul className="dropdown border max-h-[100px] overflow-y-auto absolute top-[70px] border-t-0 bg-white w-full z-50">
           {dropdownArray &&
-            dropdownArray.map((item) => (
+            dropdownArray.map((item: TBanks) => (
               <li
                 key={item.id}
                 className="p-2 cursor-pointer hover:bg-blueX/25"

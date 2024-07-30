@@ -29,3 +29,7 @@ export const getCookie = (name: string) => {
   }
   return null;
 };
+export const validateNumberInput = (input: string): number => {
+  const regex = /^[0-9]+$/;
+  return regex.test(input) ? parseInt(input) : 0;
+};
