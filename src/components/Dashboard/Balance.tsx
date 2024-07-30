@@ -91,13 +91,15 @@ const WithdrawModal = ({
   const bankName = useUserContext().user?.wallet.bank_name;
   return (
     <div
-      className={` flex border-2 shadow-xl bg-black/30 duration-300 text-black backdrop-blur-md justify-center items-center top-0 fixed w-screen h-screen ${
-        visible
-          ? "scale-100"
-          : "bg-transparent backdrop-blur-none pointer-events-none scale-0"
+      className={`border-2 flex z-50 px-6 shadow-xl left-0 bg-black/30 duration-300 text-black backdrop-blur-md justify-center items-center top-0 fixed w-screen h-screen ${
+        visible ? "" : "bg-transparent pointer-events-none backdrop-blur-0"
       }`}
     >
-      <div className={`w-1/3 rounded-xl bg-white`}>
+      <div
+        className={`md:w-1/3 duration-300 w-full relative z-[2000] rounded-xl bg-white ${
+          visible ? "scale-100" : "scale-0"
+        }`}
+      >
         <div className="flex justify-between items-center p-3">
           <span className="text-xl font-semibold">Withdraw</span>
           <span onClick={setInvisible} className="cursor-pointer">

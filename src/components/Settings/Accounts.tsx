@@ -30,6 +30,28 @@ const Account = () => {
   // const bank_code = useUserContext().user?.wallet.bank_code;
 
   useEffect(() => {
+    if (account_number) {
+      setAccountNumber(account_number);
+    }
+  }, [account_number]);
+
+  useEffect(() => {
+    if (account_number) {
+      setAccountNumber(account_number);
+    }
+  }, [account_number]);
+
+  useEffect(() => {
+    if (bank_name && banks) {
+      const foundBank = banks.find((bank) => bank.name === bank_name);
+      if (foundBank) {
+        setBankName(foundBank);
+        setSearchTerm(foundBank.name);
+      }
+    }
+  }, [bank_name, banks]);
+
+  useEffect(() => {
     if (data && data.success) {
       setBanks(data.data);
     }
@@ -64,9 +86,9 @@ const Account = () => {
     [banks, searchTerm]
   );
 
-  console.log(banks);
   const handleBankSelect = (bank: TBanks) => {
     setBankName(bank);
+    setSearchTerm(bank.name);
   };
 
   const handleOutsideClick = (event: MouseEvent) => {
@@ -123,8 +145,9 @@ const Account = () => {
   const handleAccountNumberChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    if (accountNumber.length > 9) {
+    if (accountNumber.length == 10) {
       resolveAccount({ token, accountNumber, bankCode: bankName?.code });
+      return;
     }
 
     const value = e.target.value;
@@ -157,9 +180,9 @@ const Account = () => {
             <input
               type="text"
               className="border border-blueX/30 py-2 rounded-xl outline-none px-3"
-              value={!account_number ? accountNumber : account_number}
+              value={accountNumber}
               onChange={handleAccountNumberChange}
-              readOnly={Boolean(account_number)}
+              readOnly={editing ? false : Boolean(account_number)}
             />
           </div>
           <div className="flex flex-col">
@@ -167,8 +190,8 @@ const Account = () => {
             <input
               type="text"
               className="border border-blueX/30 py-2 rounded-xl outline-none px-3"
-              value={!account_name ? accountNameValue() : account_name}
-              readOnly
+              value={accountNameValue()}
+              readOnly={editing ? false : Boolean(account_name)}
             />
           </div>
           <button
