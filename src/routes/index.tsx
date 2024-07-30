@@ -16,6 +16,7 @@ import {
   ResetPin,
 } from "../components/Settings/SecuritySettings";
 import Account from "@/components/Settings/Accounts";
+import SellGiftCards from "@/pages/Dashboard/SellGiftCards";
 
 const routes = [
   { path: "/", element: <Home /> },
@@ -24,12 +25,14 @@ const routes = [
   { path: "/dashboard", element: <DashboardHome /> },
   { path: "/forgot-password", element: <ForgotPassword /> },
   { path: "/change-password", element: <ChangePasswordComp /> },
+  { path: "/sell-cards", element: <SellGiftCards /> },
   {
     path: "/dashboard/settings",
     element: <Settings />,
     children: [
       { path: "profile", element: <ProfileSettings /> },
       { path: "account", element: <Account /> },
+
       {
         path: "Security",
         element: <SecuritySettings />,

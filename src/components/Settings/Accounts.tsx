@@ -10,11 +10,13 @@ import { toast } from "react-toastify";
 import Loader from "../loader";
 import { getFirstField } from "@/utils/functions";
 import { useUserContext } from "@/lib/context/exports";
+import SearchDropdown from "../SearchDropdownComp";
 
 const Account = () => {
   const [bankName, setBankName] = useState<TBanks | null>(null);
   const [accountNumber, setAccountNumber] = useState("");
   const [accountName, setAccountName] = useState("");
+  const [editing, setEditing] = useState(false);
   const token = useAppSelector((state) => state.user.token);
   const [banks, setBanks] = useState<TBanks[]>([]);
 
@@ -62,6 +64,7 @@ const Account = () => {
     [banks, searchTerm]
   );
 
+  console.log(banks);
   const handleBankSelect = (bank: TBanks) => {
     setBankName(bank);
     setSearchTerm(bank.name);
@@ -76,7 +79,11 @@ const Account = () => {
   };
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-
+    if (!editing) {
+      setEditing(true);
+      console.log("edit", editing);
+      return;
+    }
     if (!bankName) return;
     const formdata = new FormData();
 
@@ -134,30 +141,19 @@ const Account = () => {
         <form className="flex flex-col gap-3">
           <div className="flex relative flex-col">
             <label>Bank Name</label>
-            <input
-              type="text"
-              readOnly={Boolean(bank_name)}
-              value={!bank_name ? searchTerm : bank_name}
-              className="border border-blueX/30 py-2 rounded-xl outline-none px-3"
-              onChange={(e) => {
+            <SearchDropdown
+              readOnly={editing ? false : Boolean(bank_name)}
+              inputValue={searchTerm}
+              inputOnChange={(e) => {
                 setSearchTerm(e.target.value);
                 setDropdownVisible(true);
               }}
+              setInputValue={setSearchTerm}
+              dropdownArray={filteredBanks}
+              displayName="name"
+              dropdownItemOnSelect={handleBankSelect}
+              visible={isDropdownVisible}
             />
-            {isDropdownVisible && searchTerm && (
-              <ul className="dropdown border max-h-[100px] overflow-y-auto absolute top-[70px] border-t-0 bg-white w-full z-50">
-                {banks &&
-                  filteredBanks.map((bank) => (
-                    <li
-                      key={bank.id}
-                      className="p-2 cursor-pointer hover:bg-blueX/25"
-                      onClick={() => handleBankSelect(bank)}
-                    >
-                      {bank.name}
-                    </li>
-                  ))}
-              </ul>
-            )}
           </div>
           <div className="flex flex-col">
             <label>Account Number</label>
@@ -185,10 +181,12 @@ const Account = () => {
           >
             {isLoading ? (
               <Loader />
-            ) : account_name ? (
-              "Resolve Accout"
+            ) : account_name && !editing ? (
+              "Edit details"
+            ) : editing ? (
+              "Save Account"
             ) : (
-              "Add Account"
+              ""
             )}
           </button>
         </form>

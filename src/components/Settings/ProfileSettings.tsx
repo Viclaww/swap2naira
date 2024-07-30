@@ -16,7 +16,7 @@ const ProfileSettings = () => {
   const [birthdate, setBirthDate] = useState<string | null>("");
 
   const [profileUpdate, { isLoading }] = useProfileUpdateMutation();
-  const token = useAppSelector((state) => state.user.token);
+  const token: string = useAppSelector((state) => state.user.token);
 
   const user = useUserContext().user;
 
