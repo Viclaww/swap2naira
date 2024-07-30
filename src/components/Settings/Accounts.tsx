@@ -1,5 +1,6 @@
 import {
   useAddAccountMutation,
+  useResolveAccountMutation,
   useRetrieveBanksQuery,
 } from "@/lib/api/settingsApi";
 import { useAppSelector } from "@/lib/hooks";
@@ -18,6 +19,8 @@ const Account = () => {
   const [banks, setBanks] = useState<TBanks[]>([]);
 
   const [addAccount, { isLoading }] = useAddAccountMutation();
+  const [resolveAccount, { data: accountRes, isLoading: gettingAccountName }] =
+    useResolveAccountMutation();
   const { data } = useRetrieveBanksQuery(token);
   const account_name = useUserContext().user?.wallet.account_name;
   const bank_name = useUserContext().user?.wallet.bank_name;
@@ -30,11 +33,29 @@ const Account = () => {
     }
   }, [data]);
 
+  useEffect(() => {
+    if (accountRes && accountRes.success) {
+      setAccountName(accountRes.data.account_name);
+    }
+  }, [accountRes]);
+
+  const accountNameValue = () => {
+    if (gettingAccountName) {
+      return "Resolving Account....";
+    }
+    if (accountName) {
+      return accountName;
+    } else {
+      return "Failed to get Account Name, Check details and try again";
+    }
+  };
+
   const [searchTerm, setSearchTerm] = useState("");
   const [isDropdownVisible, setDropdownVisible] = useState(false);
 
   const filteredBanks = useMemo(
     () =>
+      banks &&
       banks.filter((bank) =>
         bank.name.toLowerCase().includes(searchTerm.toLowerCase())
       ),
@@ -81,6 +102,7 @@ const Account = () => {
       toast.error((error as Error).message);
     }
   };
+
   useEffect(() => {
     if (isDropdownVisible) {
       document.addEventListener("mousedown", handleOutsideClick);
@@ -96,6 +118,10 @@ const Account = () => {
   const handleAccountNumberChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
+    if (accountNumber.length > 9) {
+      resolveAccount({ token, accountNumber, bankCode: bankName?.code });
+    }
+
     const value = e.target.value;
     const numericValue = value.replace(/[^0-9]/g, "");
     setAccountNumber(numericValue);
@@ -120,15 +146,16 @@ const Account = () => {
             />
             {isDropdownVisible && searchTerm && (
               <ul className="dropdown border max-h-[100px] overflow-y-auto absolute top-[70px] border-t-0 bg-white w-full z-50">
-                {filteredBanks.map((bank) => (
-                  <li
-                    key={bank.id}
-                    className="p-2 cursor-pointer hover:bg-blueX/25"
-                    onClick={() => handleBankSelect(bank)}
-                  >
-                    {bank.name}
-                  </li>
-                ))}
+                {banks &&
+                  filteredBanks.map((bank) => (
+                    <li
+                      key={bank.id}
+                      className="p-2 cursor-pointer hover:bg-blueX/25"
+                      onClick={() => handleBankSelect(bank)}
+                    >
+                      {bank.name}
+                    </li>
+                  ))}
               </ul>
             )}
           </div>
@@ -147,9 +174,8 @@ const Account = () => {
             <input
               type="text"
               className="border border-blueX/30 py-2 rounded-xl outline-none px-3"
-              value={!account_name ? accountName : account_name}
-              readOnly={Boolean(account_number)}
-              onChange={(e) => setAccountName(e.target.value)}
+              value={!account_name ? accountNameValue() : account_name}
+              readOnly
             />
           </div>
           <button

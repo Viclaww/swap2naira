@@ -32,6 +32,16 @@ export const settingsApi = generalApi.injectEndpoints({
         },
       }),
     }),
+    resolveAccount: build.mutation({
+      query: ({ token, accountNumber, bankCode }) => ({
+        url: "/profile/resolve-account",
+        method: "POST",
+        body: { account_number: accountNumber, bank_code: bankCode },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    }),
     profileUpdate: build.mutation({
       query: ({ token, data }) => ({
         url: "/profile/update",
@@ -71,4 +81,5 @@ export const {
   useProfileUpdateMutation,
   useRetrieveBanksQuery,
   useAddAccountMutation,
+  useResolveAccountMutation,
 } = settingsApi;

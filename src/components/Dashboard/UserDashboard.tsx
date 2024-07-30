@@ -35,7 +35,7 @@ const UserDashboard = () => {
       <DashboardHead pageName="Dashboard" />
       <Balance />
 
-      {!isPin && !accountNumber ? (
+      {!isPin || !accountNumber ? (
         <div className="my-5">
           <h4 className="text-blueBlack text-xl font-semibold">
             Pending actions
