@@ -40,3 +40,19 @@ export const validateNumberInput = (
 export const capitalizeText = (text: string): string => {
   return text.charAt(0).toUpperCase() + text.slice(1);
 };
+
+export function addCommasToMonetary(amount: string) {
+  // Check if amount is null or undefined
+  if (amount == null) return "";
+
+  // Convert amount to string and split integer and decimal parts
+  const parts = amount.toString().split(".");
+  let integerPart = parts[0];
+  const decimalPart = parts.length > 1 ? "." + parts[1] : "";
+
+  // Add commas to the integer part
+  integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+  // Return the formatted amount
+  return integerPart + decimalPart;
+}

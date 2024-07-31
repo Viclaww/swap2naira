@@ -8,7 +8,11 @@ import { Link } from "react-router-dom";
 import { PiPlus } from "react-icons/pi";
 import { BiX } from "react-icons/bi";
 import { toast } from "react-toastify";
-import { capitalizeText, validateNumberInput } from "@/utils/functions";
+import {
+  addCommasToMonetary,
+  capitalizeText,
+  validateNumberInput,
+} from "@/utils/functions";
 import TransactionPinModal from "../TransactionPinModal";
 // import { useWithdrawMutation } from "@/lib/api/generalApi";
 // import { useAppSelector } from "@/lib/hooks";
@@ -21,7 +25,7 @@ const Balance = () => {
 
   return (
     <div className="flex flex-col md:items-center justify-center px-3 gap-4 bg-blueZ py-6 rounded-lg mb-4">
-      <span className="text-2xl  font-semibold">
+      <span className="font-semibold">
         {isFetching ? (
           <Skeleton width="30%" />
         ) : user ? (
@@ -33,14 +37,14 @@ const Balance = () => {
         )}
       </span>
       <div className="flex gap-3 items-center">
-        <span>
+        <span className="text-2xl font-semibold">
           ₦
           {isFetching ? (
             <Skeleton width="30%" />
           ) : !balanceVisible ? (
             "****"
           ) : user ? (
-            ` ${user.wallet.main_balance.toFixed(2)}`
+            ` ${addCommasToMonetary(user.wallet.main_balance.toFixed(2))}`
           ) : error ? (
             "...."
           ) : (
