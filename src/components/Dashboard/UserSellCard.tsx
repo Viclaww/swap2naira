@@ -90,7 +90,9 @@ const UserSellCard = () => {
           <label className="font-medium">Enter Gift Card amount:</label>
           <input
             value={amount}
-            onChange={(e) => setAmount(validateNumberInput(e.target.value))}
+            onChange={(e) =>
+              setAmount(validateNumberInput(amount, e.target.value))
+            }
             type="text"
             className="w-full outline-none border py-2 px-2 rounded-md"
           />
