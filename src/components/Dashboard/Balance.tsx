@@ -9,6 +9,7 @@ import { PiPlus } from "react-icons/pi";
 import { BiX } from "react-icons/bi";
 import { toast } from "react-toastify";
 import { capitalizeText, validateNumberInput } from "@/utils/functions";
+import TransactionPinModal from "../TransactionPinModal";
 // import { useWithdrawMutation } from "@/lib/api/generalApi";
 // import { useAppSelector } from "@/lib/hooks";
 
@@ -17,6 +18,7 @@ const Balance = () => {
 
   const [balanceVisible, setBalanceVisible] = useState<boolean>(false);
   const [withdrawModal, setWithdrawModal] = useState<boolean>(false);
+
   return (
     <div className="flex flex-col md:items-center justify-center px-3 gap-4 bg-blueZ py-6 rounded-lg mb-4">
       <span className="text-2xl  font-semibold">
@@ -91,6 +93,8 @@ const WithdrawModal = ({
   setInvisible: () => void;
 }) => {
   const [amount, setAmount] = useState<number>(0);
+  const [takepin, setTakepin] = useState<boolean>(false);
+  const [pin, setPin] = useState<string>("");
   const isPin = useUserContext().user?.wallet.is_pin;
   const accountNumber = useUserContext().user?.wallet.account_number;
   const accountName = useUserContext().user?.wallet.account_name;
@@ -99,7 +103,7 @@ const WithdrawModal = ({
   // const token = useAppSelector((state) => state.user.token);
 
   // const [withdraw] = useWithdrawMutation();
-  const handleWithdraw = async () => {
+  const handleWithdraw = () => {
     if (!isPin) {
       toast.warning("You have to set Transaction Pin to be able to Withdraw.");
       return;
@@ -108,15 +112,11 @@ const WithdrawModal = ({
       toast.warning("You have to add a bank account to be able to Withdraw.");
       return;
     }
-    if (mainBalance && amount > mainBalance) {
+    if (mainBalance && amount && amount > mainBalance) {
       toast.warning("Insufficient balance");
       return;
     }
-    try {
-      // withdraw({ token, data{bank_d} });
-    } catch (error) {
-      console.log(error);
-    }
+    setTakepin(true);
   };
   return (
     <div
@@ -131,69 +131,89 @@ const WithdrawModal = ({
           visible ? "scale-100" : "scale-0"
         }`}
       >
-        <div className="flex justify-between items-center p-3">
-          <span className="text-xl font-semibold">Withdraw</span>
-          <span onClick={setInvisible} className="cursor-pointer">
-            <BiX size={25} />
-          </span>
-        </div>
-        <div className="flex flex-col gap-4 p-3">
-          <div className="flex flex-col gap-2">
-            <input
-              value={amount}
-              onChange={(e) =>
-                setAmount(validateNumberInput(amount, e.target.value))
-              }
-              type="text"
-              className="border p-4 rounded-md"
-              placeholder="Enter Amount"
+        {takepin ? (
+          <div className="flex flex-col gap-3 justify-between items-center p-3">
+            <span className="text-xl font-semibold">Withdraw</span>
+            <p>Insert pin to continue with Transaction</p>
+            <TransactionPinModal
+              handleSubmit={() => null}
+              onCancel={() => {
+                setTakepin(false);
+              }}
+              pin={pin}
+              setPin={setPin}
             />
           </div>
-          <div className="flex flex-col gap-2">
-            {!isPin ? (
-              <>
-                <p className="text-sm">
-                  You have to set Transaction Pin to be able to Withdraw.
-                </p>
-                <Link
-                  onClick={setInvisible}
-                  to="/dashboard/settings/security/change-withdrawal-pin"
-                  className="text-blueX text-sm underline text-center"
-                >
-                  Set Transaction Pin
-                </Link>
-              </>
-            ) : accountNumber ? (
-              <>
-                <h4 className="font-medium">Bank Account:</h4>
-                <div className="flex bg-slate-300  px-3 py-2 font-medium justify-between cursor-pointer rounded-lg items-center">
-                  <span>{accountNumber}</span>
-                  <span>
-                    <p>{accountName}</p>
-                    <p>{bankName}</p>
-                  </span>
-                </div>
-              </>
-            ) : (
-              <>
-                <h4 className="font-medium">Bank Account:</h4>
-                <p className="text-sm">You have no bank accounts</p>
-                <div className="flex bg-slate-300 flex-col  px-3 py-2 font-medium justify-center cursor-pointer rounded-lg items-center">
-                  <span className="bg-slate-100 p-1 rounded-full">
-                    <PiPlus size={28} />
-                  </span>
-                  <p>Add account</p>
-                </div>
-              </>
-            )}
-          </div>
-          <button
-            onClick={handleWithdraw}
-            className={`${visible} bg-blueX text-white p-2 rounded-md`}
-          >
-            Withdraw
-          </button>
-        </div>
+        ) : (
+          <>
+            <div className="flex justify-between items-center p-3">
+              <span className="text-xl font-semibold">Withdraw</span>
+              <span onClick={setInvisible} className="cursor-pointer">
+                <BiX size={25} />
+              </span>
+            </div>
+            <div className="flex flex-col gap-4 p-3">
+              <div className="flex flex-col gap-2">
+                <input
+                  value={amount}
+                  onChange={(e) =>
+                    setAmount(validateNumberInput(amount, e.target.value))
+                  }
+                  type="text"
+                  className="border p-4 rounded-md"
+                  placeholder="Enter Amount"
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                {!isPin ? (
+                  <>
+                    <p className="text-sm">
+                      You have to set Transaction Pin to be able to Withdraw.
+                    </p>
+                    <Link
+                      onClick={setInvisible}
+                      to="/dashboard/settings/security/change-withdrawal-pin"
+                      className="text-blueX text-sm underline text-center"
+                    >
+                      Set Transaction Pin
+                    </Link>
+                  </>
+                ) : accountNumber ? (
+                  <>
+                    <h4 className="font-medium">Bank Account:</h4>
+                    <div className="flex bg-slate-300  px-3 py-2 font-medium justify-between cursor-pointer rounded-lg items-center">
+                      <span>{accountNumber}</span>
+                      <span>
+                        <p>{accountName}</p>
+                        <p>{bankName}</p>
+                      </span>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <h4 className="font-medium">Bank Account:</h4>
+                    <p className="text-sm">You have no bank accounts</p>
+                    <Link
+                      to="/dashboard/settings/account"
+                      className="flex bg-slate-300 flex-col  px-3 py-2 font-medium justify-center cursor-pointer rounded-lg items-center"
+                    >
+                      <span className="bg-slate-100 p-1 rounded-full">
+                        <PiPlus size={28} />
+                      </span>
+                      <p>Add account</p>
+                    </Link>
+                  </>
+                )}
+              </div>
+              <button
+                onClick={handleWithdraw}
+                className={`${visible} bg-blueX text-white p-2 rounded-md`}
+              >
+                Withdraw
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

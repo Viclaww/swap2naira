@@ -3,6 +3,7 @@ import { RxAvatar } from "react-icons/rx";
 import Notifications from "../notifications/Notifications";
 import { useState } from "react";
 import { useUserContext } from "@/lib/context/exports";
+import { Link } from "react-router-dom";
 
 interface Props {
   pageName: string;
@@ -14,7 +15,10 @@ const DashboardHead: React.FC<Props> = ({ pageName }) => {
   return (
     <div className="flex justify-between text-black mb-4">
       <span className="text-2xl font-medium">{pageName}</span>
-      <span className="text-2xl flex items-center gap-4 font-semibold">
+      <Link
+        to="/dashboard/settings/profile"
+        className="text-2xl flex items-center gap-4 font-semibold"
+      >
         {picture ? (
           <div className="w-8 h-8">
             <img
@@ -38,7 +42,7 @@ const DashboardHead: React.FC<Props> = ({ pageName }) => {
             setShow={setShowNotification}
           />
         </div>
-      </span>
+      </Link>
     </div>
   );
 };

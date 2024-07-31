@@ -4,6 +4,9 @@ import { FaPerson, FaUserLock } from "react-icons/fa6";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { MdAccountBalance } from "react-icons/md";
+import { CiLogout } from "react-icons/ci";
+import { useLazyLogoutUserQuery } from "@/lib/api/generalApi";
+import { useAppSelector } from "@/lib/hooks";
 
 interface SettingsTab {
   name: string;
@@ -16,6 +19,70 @@ const UserSetting = () => {
   const location = useLocation().pathname;
 
   const [current, setCurrent] = useState<string | null>(null);
+  const [showModal, setShowModal] = useState(false);
+  const [logoutUser] = useLazyLogoutUserQuery();
+  const token = useAppSelector((state) => state.user.token);
+
+  const LogoutModal = ({
+    visible,
+    setVisible,
+  }: {
+    visible: boolean;
+    setVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  }) => {
+    useEffect(() => {
+      const handleOutsideClick = (event: MouseEvent) => {
+        const target = event.target as HTMLElement;
+        const notificationBar = document.getElementById("logout-box");
+        if (notificationBar && !notificationBar.contains(target)) {
+          setShowModal(false);
+        }
+      };
+      document.addEventListener("mousedown", handleOutsideClick);
+      return () => {
+        document.removeEventListener("mousedown", handleOutsideClick);
+      };
+    }, []);
+    return (
+      <div
+        className={`fixed top-0 left-0 px-5 duration-300 w-full h-full flex justify-center items-center ${
+          visible
+            ? "z-30 pointer-events-auto opacity-100 backdrop-blur-md"
+            : "pointer-events-none -z-20 opacity-0 backdrop-blur-0"
+        }`}
+      >
+        <div
+          id="logout-box"
+          className={`bg-white gap-2 flex flex-col w-full md:w-1/2 lg:w-1/4  p-6 rounded-md ${
+            visible ? "scale-100" : "scale-0"
+          } transform transition-transform duration-300 ease-in-out`}
+        >
+          <h3 className="text-xl font-semibold">Logout</h3>
+          <p className="font-medium">
+            Are you sure you want to logout? You would have to Login again.
+          </p>
+          <div className="grid grid-cols-2 gap-4">
+            <button
+              onClick={() => {
+                logoutUser(token);
+                sessionStorage.removeItem("token");
+                window.location.href = "/login";
+              }}
+              className="bg-slate-500 flex justify-center text-white px-4 py-2 rounded-md"
+            >
+              Yes
+            </button>
+            <button
+              onClick={() => setVisible(false)}
+              className="bg-blue-500 flex justify-center text-white px-4 py-2 rounded-md"
+            >
+              No
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   const dividedLocation = () => {
     const locationShown = location.split("/");
@@ -77,6 +144,13 @@ const UserSetting = () => {
       },
       icon: (size: number) => <FaUserLock size={size} />,
     },
+    {
+      name: "Log Out",
+      onClick: () => {
+        setShowModal(true);
+      },
+      icon: (size: number) => <CiLogout size={size} />,
+    },
   ];
   return (
     <>
@@ -102,6 +176,7 @@ const UserSetting = () => {
             </div>
           ))}
         </div>
+        <LogoutModal visible={showModal} setVisible={setShowModal} />
         <div className="md:w-2/5 w-full">
           <Outlet />
         </div>
