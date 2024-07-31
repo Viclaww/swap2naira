@@ -108,7 +108,7 @@ const DashNavbarLayout: React.FC<Prop> = ({ children }) => {
   ];
   return (
     <div className="">
-      <main className="min-h-[100vh] md:ml-32 px-6 pt-16 pb-14 flex flex-col text-white">
+      <main className="min-h-[100vh] mb-10 md:ml-32 px-6 pt-16 pb-14 flex flex-col text-white">
         {children}
       </main>
       <div className="flex md:flex-col md:font-medium md:w-32 md:h-full md:rounded-none justify-between md:justify-start fixed  bottom-0  items-center text-white  py-3 px-6 md:px-0 bg-blueZ w-full rounded-t-xl ">

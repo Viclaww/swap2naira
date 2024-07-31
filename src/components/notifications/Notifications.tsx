@@ -8,6 +8,7 @@ import TabComp from "../TabComp";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { BiX } from "react-icons/bi";
 
 interface Props {
   show: boolean;
@@ -85,6 +86,13 @@ const Notifications: React.FC<Props> = ({ show, setShow }) => {
       }`}
     >
       <h3>Notifications</h3>
+
+      <span
+        onClick={() => setShow(false)}
+        className="absolute right-6 cursor-pointer md:hidden"
+      >
+        <BiX size={30} />
+      </span>
       <TabComp
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}

@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { PiPlus } from "react-icons/pi";
 import { BiX } from "react-icons/bi";
 import { toast } from "react-toastify";
+import { capitalizeText, validateNumberInput } from "@/utils/functions";
 // import { useWithdrawMutation } from "@/lib/api/generalApi";
 // import { useAppSelector } from "@/lib/hooks";
 
@@ -22,7 +23,7 @@ const Balance = () => {
         {isFetching ? (
           <Skeleton width="30%" />
         ) : user ? (
-          `Hi, ${user.username}`
+          `Hi, ${capitalizeText(user.username)}`
         ) : error ? (
           "...."
         ) : (
@@ -140,7 +141,9 @@ const WithdrawModal = ({
           <div className="flex flex-col gap-2">
             <input
               value={amount}
-              onChange={(e) => setAmount(Number(e.target.value))}
+              onChange={(e) =>
+                setAmount(validateNumberInput(amount, e.target.value))
+              }
               type="text"
               className="border p-4 rounded-md"
               placeholder="Enter Amount"
