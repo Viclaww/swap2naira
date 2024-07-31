@@ -92,7 +92,9 @@ const WithdrawModal = ({
   return (
     <div
       className={`border-2 flex z-50 px-6 shadow-xl left-0 bg-black/30 duration-300 text-black backdrop-blur-md justify-center items-center top-0 fixed w-screen h-screen ${
-        visible ? "" : "bg-transparent pointer-events-none backdrop-blur-0"
+        visible
+          ? "opacity-100 pointer-events-auto backdrop-blur-20"
+          : "bg-transparent pointer-events-none opacity-0 backdrop-blur-0"
       }`}
     >
       <div
