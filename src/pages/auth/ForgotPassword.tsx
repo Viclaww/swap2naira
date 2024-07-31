@@ -6,6 +6,7 @@ import { useModal } from "@/lib/context/exports";
 import { ModalContext } from "@/lib/types";
 import Loader from "@/components/loader";
 import OtpModal from "@/components/OtpModal";
+import { getFirstField } from "@/utils/functions";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState<string>("");
@@ -16,7 +17,7 @@ const ForgotPassword = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      const { data } = await ForgotPassword({ email: email });
+      const { data, error } = await ForgotPassword({ email: email });
       if (data && data.success) {
         console.log("Success", data);
         setModalEmail(email);
@@ -25,9 +26,14 @@ const ForgotPassword = () => {
           "/change-password",
           "Forgot-Password"
         );
-        if (data && !data.success) {
-          setErrmsg("Email account does not exist");
-        }
+      }
+      if (error) {
+        setErrmsg(
+          getFirstField(
+            (error as { data?: { data?: { [x: string]: unknown } } })?.data
+              ?.data as { [x: string]: unknown }
+          )[0]
+        );
       }
     } catch (error) {
       setErrmsg("Error");
@@ -51,6 +57,7 @@ const ForgotPassword = () => {
         placeholder="Email"
       />
       <button
+        disabled={isLoading || !email}
         className="flex justify-center"
         onClick={handleSubmit}
         type="submit"

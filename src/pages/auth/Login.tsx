@@ -77,7 +77,11 @@ const Login = () => {
         name="password"
         id="password"
       />
-      <button className="flex justify-center" onClick={handleLogin}>
+      <button
+        disabled={!email || !password || isLoading}
+        className="flex justify-center"
+        onClick={handleLogin}
+      >
         {isLoading ? <Loader /> : "Login"}
       </button>
       {errmsg && <span className="text-red-800">{errmsg}</span>}
