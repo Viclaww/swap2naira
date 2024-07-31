@@ -123,7 +123,8 @@ const WithdrawModal = ({
                   You have to set Transaction Pin to be able to Withdraw.
                 </p>
                 <Link
-                  to="/settings/change-withdrawal-pin "
+                  onClick={setInvisible}
+                  to="/dashboard/settings/security/change-withdrawal-pin"
                   className="text-blueX text-sm underline text-center"
                 >
                   Set Transaction Pin

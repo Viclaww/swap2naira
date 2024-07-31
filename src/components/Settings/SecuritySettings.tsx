@@ -1,7 +1,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import Flip from "gsap/Flip";
 import gsap from "gsap";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useUserContext } from "@/lib/context/exports";
 import {
   useChangeWithdrawalPinMutation,
@@ -11,6 +11,7 @@ import {
 import { useAppSelector } from "@/lib/hooks";
 import Loader from "../loader";
 import { toast } from "react-toastify";
+import { getFirstField } from "@/utils/functions";
 
 gsap.registerPlugin(Flip);
 
@@ -158,6 +159,7 @@ export const ChangeWithdrawalPin = () => {
   const [oldPin, setOldPin] = useState("");
   const [newPin, setNewPin] = useState("");
   const token = useAppSelector((state) => state.user.token);
+  const navigate = useNavigate();
   const [setWithdrawalPin, { isLoading }] = useSetWithdrawalPinMutation();
   const [ChangeWithdrawalPin, { isLoading: changeLoading }] =
     useChangeWithdrawalPinMutation();
@@ -192,18 +194,25 @@ export const ChangeWithdrawalPin = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
+      if (!newPin || newPin.length < 4) {
+        toast.error("You must input a four digit pin");
+        return;
+      }
       const { data, error } = await action();
       if (data) {
         console.log(data);
-        if (isPin) {
-          if (data.success) {
-            toast.success(data.message);
-          }
+
+        if (data.success) {
+          toast.success(data.message);
+          navigate("/dashboard");
         }
       }
       if (error && "data" in error) {
-        console.log(error);
-        toast.error((error.data as { message: string }).message);
+        const errorMsg = getFirstField(
+          (error as { data?: { data?: { [x: string]: unknown } } })?.data
+            ?.data as { [x: string]: unknown }
+        )[0];
+        toast.error(errorMsg || (error.data as { message: string }).message);
       }
     } catch (error) {
       console.log("Bad, error");

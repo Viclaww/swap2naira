@@ -142,12 +142,17 @@ const Account = () => {
     };
   }, [isDropdownVisible]);
 
+  useEffect(() => {
+    if (accountNumber.length == 10) {
+      resolveAccount({ token, accountNumber, bankCode: bankName?.code });
+      return;
+    }
+  }, [accountNumber, bankName?.code, resolveAccount, token]);
   const handleAccountNumberChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     if (accountNumber.length == 10) {
       resolveAccount({ token, accountNumber, bankCode: bankName?.code });
-      return;
     }
 
     const value = e.target.value;
@@ -167,7 +172,7 @@ const Account = () => {
               inputValue={searchTerm}
               inputOnChange={(e) => {
                 setSearchTerm(e.target.value);
-                setDropdownVisible(true);
+                setDropdownVisible(false);
               }}
               setInputValue={setSearchTerm}
               dropdownArray={filteredBanks}
