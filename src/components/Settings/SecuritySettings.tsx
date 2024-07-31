@@ -27,7 +27,7 @@ const SecuritySettings = () => {
   const securityTabs: SecurityTab[] = [
     { name: "Change Password", path: "change-password" },
     { name: "Change Withdraw Pin", path: "change-withdrawal-pin" },
-    { name: "Reset Pin", path: "reset-pin" },
+    // { name: "Reset Pin", path: "reset-pin" },
   ];
   const state = Flip.getState(".tabs");
   Flip.from(state, {

@@ -1,7 +1,6 @@
 import Balance from "./Balance";
 import DashboardHead from "./DashboardHead";
 import { FaPerson, FaUserLock } from "react-icons/fa6";
-import { CiLogout } from "react-icons/ci";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { MdAccountBalance } from "react-icons/md";
@@ -77,11 +76,6 @@ const UserSetting = () => {
         navigate("/dashboard/settings/security");
       },
       icon: (size: number) => <FaUserLock size={size} />,
-    },
-    {
-      name: "Log Out",
-      onClick: () => console.log("Signing out"),
-      icon: (size: number) => <CiLogout size={size} />,
     },
   ];
   return (

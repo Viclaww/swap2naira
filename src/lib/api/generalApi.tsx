@@ -80,6 +80,16 @@ export const generalApi = createApi({
         },
       }),
     }),
+    withdraw: build.mutation({
+      query: ({ token, body }) => ({
+        url: "/wallet/withdraw",
+        method: "POST",
+        body,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    }),
     getNotifications: build.query({
       query: ({ token, page }: { token: string; page?: number }) => ({
         url: `/notification?page=${page ? page : 1}`,
@@ -96,6 +106,7 @@ export const generalApi = createApi({
 // auto-generated based on the defined endpoints
 
 export const {
+  useWithdrawMutation,
   useLoginMutation,
   useGetUserQuery,
   useVerifyEmailMutation,

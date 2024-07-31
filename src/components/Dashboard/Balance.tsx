@@ -7,6 +7,9 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { PiPlus } from "react-icons/pi";
 import { BiX } from "react-icons/bi";
+import { toast } from "react-toastify";
+// import { useWithdrawMutation } from "@/lib/api/generalApi";
+// import { useAppSelector } from "@/lib/hooks";
 
 const Balance = () => {
   const { isFetching, user, error } = useUserContext() as TUserContext;
@@ -58,6 +61,7 @@ const Balance = () => {
           </div>
           <span className="text-xs">Sell Gift Cards</span>
         </Link>
+
         <div
           onClick={() => setWithdrawModal(true)}
           className="flex flex-col cursor-pointer gap-3 justify-center items-center"
@@ -85,10 +89,34 @@ const WithdrawModal = ({
   visible: boolean;
   setInvisible: () => void;
 }) => {
+  const [amount, setAmount] = useState<number>(0);
   const isPin = useUserContext().user?.wallet.is_pin;
   const accountNumber = useUserContext().user?.wallet.account_number;
   const accountName = useUserContext().user?.wallet.account_name;
   const bankName = useUserContext().user?.wallet.bank_name;
+  const mainBalance = useUserContext().user?.wallet.main_balance;
+  // const token = useAppSelector((state) => state.user.token);
+
+  // const [withdraw] = useWithdrawMutation();
+  const handleWithdraw = async () => {
+    if (!isPin) {
+      toast.warning("You have to set Transaction Pin to be able to Withdraw.");
+      return;
+    }
+    if (!accountNumber) {
+      toast.warning("You have to add a bank account to be able to Withdraw.");
+      return;
+    }
+    if (mainBalance && amount > mainBalance) {
+      toast.warning("Insufficient balance");
+      return;
+    }
+    try {
+      // withdraw({ token, data{bank_d} });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div
       className={`border-2 flex z-50 px-6 shadow-xl left-0 bg-black/30 duration-300 text-black backdrop-blur-md justify-center items-center top-0 fixed w-screen h-screen ${
@@ -111,6 +139,8 @@ const WithdrawModal = ({
         <div className="flex flex-col gap-4 p-3">
           <div className="flex flex-col gap-2">
             <input
+              value={amount}
+              onChange={(e) => setAmount(Number(e.target.value))}
               type="text"
               className="border p-4 rounded-md"
               placeholder="Enter Amount"
@@ -154,7 +184,10 @@ const WithdrawModal = ({
               </>
             )}
           </div>
-          <button className={`${visible} bg-blueX text-white p-2 rounded-md`}>
+          <button
+            onClick={handleWithdraw}
+            className={`${visible} bg-blueX text-white p-2 rounded-md`}
+          >
             Withdraw
           </button>
         </div>
