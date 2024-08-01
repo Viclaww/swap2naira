@@ -9,13 +9,8 @@ export default function AuthLayout({
 }) {
   return (
     <div className="flex bg-blueZ px-3 w-full h-screen justify-center items-center">
-      {/* <div className="absolute bg-blueX/60 -z-20 grid grid-cols-2 w-screen h-screen">
-        <img src="/images/authbg1.png" alt="" />
-        <img src="/images/authbg2.png" alt="" />
-        <img src="/images/authbg1.png" alt="" />
-        <img src="/images/authbg2.png" alt="" />
-      </div> */}
-      <div className="bg-white gap-4 flex px-4 rounded-lg py-6 flex-col md:w-2/5 items-center">
+
+      <div className="bg-white gap-4 flex px-4 rounded-lg py-6 flex-col  w-full mx-1 md:w-2/5 items-center">
         <Link to="/">
           <img src="/images/S2N.png" className="w-48 bg-white p-1" alt="logo" />
         </Link>
