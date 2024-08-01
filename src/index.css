@@ -4,6 +4,9 @@
 @tailwind utilities;
 
 @layer components {
+  body {
+    @apply font-poppins;
+  }
   .auth-form input {
     @apply px-2 py-3 rounded-md focus:outline-none bg-blueX/20 font-medium;
   }

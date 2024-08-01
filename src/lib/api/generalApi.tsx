@@ -90,6 +90,15 @@ export const generalApi = createApi({
         },
       }),
     }),
+    getTransactions: build.query({
+      query: (token: string) => ({
+        url: "/transaction",
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    }),
     getNotifications: build.query({
       query: ({ token, page }: { token: string; page?: number }) => ({
         url: `/notification?page=${page ? page : 1}`,
@@ -118,4 +127,5 @@ export const {
   useLazyLogoutUserQuery,
   useChangePasswordMutation,
   useLazyResendVerifyEmailQuery,
+  useGetTransactionsQuery,
 } = generalApi;

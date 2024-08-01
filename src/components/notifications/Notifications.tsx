@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { BiX } from "react-icons/bi";
+import { outsideClick } from "@/utils/functions";
 
 interface Props {
   show: boolean;
@@ -51,11 +52,7 @@ const Notifications: React.FC<Props> = ({ show, setShow }) => {
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
-      const target = event.target as HTMLElement;
-      const notificationBar = document.getElementById("notification-bar");
-      if (notificationBar && !notificationBar.contains(target)) {
-        setShow(false);
-      }
+      outsideClick(event, document.getElementById("notification-bar"), () => setShow(false));
     };
     document.addEventListener("mousedown", handleOutsideClick);
     return () => {

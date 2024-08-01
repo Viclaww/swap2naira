@@ -16,6 +16,10 @@ export const UserProvider: React.FC<props> = ({ children }) => {
   const dispatch = useAppDispatch();
   const { data, isFetching, error } = useGetUserQuery(token as string);
 
+  // const { data: transactions, error: getTxerror } = useGetTransactionsQuery(
+  //   token as string
+  // );
+
   if (data && data.success) {
     console.log("Data", data.data.user);
     dispatch(setUser(data.data.user));

@@ -56,3 +56,14 @@ export function addCommasToMonetary(amount: string) {
   // Return the formatted amount
   return integerPart + decimalPart;
 }
+
+export const outsideClick = (
+  e: MouseEvent,
+  element: HTMLElement | null,
+  close: () => void
+) => {
+  const target = e.target as HTMLElement;
+  if (element && !element.contains(target)) {
+    close();
+  }
+};

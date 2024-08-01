@@ -85,3 +85,15 @@ export type TCardCategory = {
   rate: number;
   active: false;
 };
+
+export type TTransaction = {
+  uuid: string;
+  amount: number;
+  status: string;
+  type: string;
+  reference: string;
+  tnx_id: string;
+  flw_status: string;
+  flw_fee: number;
+  sent_mail: boolean;
+};

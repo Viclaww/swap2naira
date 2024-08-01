@@ -9,14 +9,16 @@ import { useAppSelector } from "@/lib/hooks";
 import { useEffect, useState } from "react";
 import { TCardBrand, TCardCategory } from "@/lib/types";
 import Loader from "../loader";
-import { validateNumberInput } from "@/utils/functions";
-import { BiPlus, BiX } from "react-icons/bi";
+import { outsideClick, validateNumberInput } from "@/utils/functions";
+import { BiChevronDown, BiPlus, BiX } from "react-icons/bi";
 import { toast } from "react-toastify";
 
 const UserSellCard = () => {
   const token = useAppSelector((state) => state.user.token);
   const [pickedbrand, setPickedBrand] = useState<string>("");
   const [cardBrands, setCardBrands] = useState<TCardBrand[]>([]);
+  const [showBrands, setShowBrands] = useState(false);
+  const [showCategory, setShowCategory] = useState(false);
   const [cardCatergories, setCardCategories] = useState<TCardCategory[]>([]);
   const [pickedCategory, setPickedCategory] = useState("");
   const [images, setImages] = useState<File[]>([]);
@@ -24,19 +26,47 @@ const UserSellCard = () => {
   const [amount, setAmount] = useState<number>(0);
   const [ecodes, setEcodes] = useState<string[]>([]);
   const [ecodeInput, setEcodeInput] = useState<string>("");
+
   const [getCategories, { data: categories, isLoading: categoriesLoading }] =
     useGetCategoriesMutation();
 
-  const [createRequest] = useCreateRequestMutation();
+  const [createRequest, { isLoading: requestLoading }] =
+    useCreateRequestMutation();
 
   useEffect(() => {
     if (data) {
       setCardBrands(data.data);
     }
   }, [data]);
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      outsideClick(event, document.getElementById("categories-list"), () =>
+        setShowCategory(false)
+      );
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [setShowCategory]);
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      outsideClick(event, document.getElementById("brands-list"), () =>
+        setShowBrands(false)
+      );
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [setShowBrands]);
+
   useEffect(() => {
     if (categories && categories.success) {
       setCardCategories(categories.data);
+      console.log(categories.data);
     }
   }, [categories]);
 
@@ -82,6 +112,8 @@ const UserSellCard = () => {
   };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (requestLoading) return;
     if (!pickedbrand) {
       toast.warning("Please select a brand");
       return;
@@ -160,63 +192,131 @@ const UserSellCard = () => {
         <div className="flex  w-full lg:w-1/2 flex-col gap-5">
           <div className="flex flex-col outline-none">
             <label className="font-medium">Select Gift Card:</label>
-            <select
-              className="outline-none py-2 px-2 rounded-md border"
-              value={pickedbrand}
-              onChange={(e) => {
-                setPickedBrand(e.target.value);
+            <div className="relative">
+              <div className="relative border p-2 flex flex-col gap-4 rounded-lg">
+                <span
+                  className={`select-item ${
+                    pickedbrand === "" ? "selected" : ""
+                  }`}
+                  onClick={() => {
+                    setPickedCategory("");
+                    setShowBrands(!showBrands);
+                  }}
+                >
+                  {pickedbrand || "Select a brand"}
+                </span>
+                {showBrands && cardBrands.length > 0 && (
+                  <ul
+                    id="brands-list"
+                    className="absolute top-14 bg-white w-full border left-0 bottom-10 rounded-lg duration-200 z-20 h-fit max-h-[180px] overflow-auto"
+                  >
+                    {cardBrands.map((brand, index) => (
+                      <li
+                        className={`flex cursor-pointer my-2 hover:bg-blueX/30 p-2 items-center gap-3  ${
+                          pickedbrand === brand.brand ? "bg-blueX/30" : ""
+                        }`}
+                        key={index}
+                        onClick={() => {
+                          setPickedBrand(brand.brand);
+                          setPickedCategory("");
+                          setCardCategories([]);
+                          setShowBrands(false);
+                          getCategories({
+                            token,
+                            data: { brand: brand.brand },
+                          });
+                        }}
+                      >
+                        <span className="w-10 h-10">
+                          <img
+                            src={brand.image}
+                            className="w-full h-full"
+                            alt=""
+                          />
+                        </span>
+                        {brand.brand}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+              <div className="absolute right-2 top-3 pointer-events-none">
+                {isLoading ? (
+                  <span>
+                    <Loader />
+                  </span>
+                ) : (
+                  <BiChevronDown size={20} />
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col"></div>
+          <label className="font-medium">Select Categories:</label>
+          <div className="relative">
+            <div className="relative border p-2 flex flex-col gap-4 rounded-lg">
+              <span
+                className={`select-item cursor-pointer ${
+                  pickedCategory === "" ? "selected" : ""
+                }`}
+                onClick={() => setShowCategory(!showCategory)}
+              >
+                {pickedCategory || "Select a category"}
+              </span>
+              {showCategory && cardCatergories.length > 0 && (
+                <ul
+                  id="categories-list"
+                  className="absolute top-14 bg-white w-full border left-0 bottom-10 rounded-lg duration-200 z-20 h-fit max-h-[200px] overflow-auto"
+                >
+                  {cardCatergories.map((category, index) => (
+                    <li
+                      className={`flex cursor-pointer my-2 hover:bg-blueX/30 p-2 items-center gap-3  ${
+                        pickedCategory === category.type ? "bg-blueX/30" : ""
+                      }`}
+                      key={index}
+                      onClick={() => {
+                        setPickedCategory(category.type);
+                        setShowCategory(false);
+                      }}
+                    >
+                      <span className="w-10 h-10 rounded-full">
+                        <img
+                          className="w-full object-cover h-full rounded-full"
+                          src={category.image}
+                          alt=""
+                        />
+                      </span>
 
-                getCategories({ token, data: { brand: e.target.value } });
-              }}
-            >
-              <option value="">Select a brand</option>
-              {isLoading ? (
-                <Loader />
-              ) : (
-                cardBrands &&
-                cardBrands.map((brand, index) => (
-                  <option className="py-2" key={index} value={brand.brand}>
-                    <img src={brand.image} className="w-10 h-10" alt="" />
-                    {brand.brand}
-                  </option>
-                ))
+                      {category.type}
+                    </li>
+                  ))}
+                </ul>
               )}
-            </select>
-          </div>
-          <div className="flex flex-col">
-            <label className="font-medium">Select Categories:</label>
-            <select
-              className="border outline-none py-2 px-2 rounded-md"
-              value={pickedCategory}
-              onChange={(e) => setPickedCategory(e.target.value)}
-            >
-              <option value="">Select a categories</option>
+            </div>
+            <div className="absolute right-2 top-3 pointer-events-none">
               {categoriesLoading ? (
-                <Loader />
+                <span>
+                  <Loader />
+                </span>
               ) : (
-                cardCatergories &&
-                cardCatergories.map((category, index) => (
-                  <option key={index} value={category.type}>
-                    {category.type}
-                  </option>
-                ))
+                <BiChevronDown size={20} />
               )}
-            </select>
+            </div>
           </div>
-          <div className="flex flex-col">
-            <label className="font-medium">Enter Gift Card amount:</label>
-            <input
-              value={amount}
-              onChange={(e) =>
-                setAmount(validateNumberInput(amount, e.target.value))
-              }
-              type="text"
-              className="w-full outline-none border py-2 px-2 rounded-md"
-            />
-          </div>
-          <div className="w-full py-3 font-medium px-2 rounded-md bg-blueX/25">
-            ₦{cardValue()}
-          </div>
+        </div>
+        <div className="flex flex-col">
+          <label className="font-medium">Enter Gift Card amount:</label>
+          <input
+            value={amount}
+            onChange={(e) =>
+              setAmount(validateNumberInput(amount, e.target.value))
+            }
+            type="text"
+            className="w-full outline-none border py-2 px-2 rounded-md"
+          />
+        </div>
+        <div className="w-full py-3 font-medium px-2 rounded-md bg-blueX/25">
+          ₦{cardValue()}
         </div>
         <div className="flex  w-full lg:w-1/2 flex-col gap-5">
           <div className="images flex flex-wrap gap-3">
@@ -252,7 +352,7 @@ const UserSellCard = () => {
               </span>
             </span>
           </div>
-          <label>Enter Ecode(seperate with space)</label>
+          <label>Enter Ecodes(seperate with space)</label>
           <div className="w-full gap-1 flex min-h-10 border items-center rounded-md px-2 py-1 flex-wrap">
             {ecodes &&
               ecodes.map((ecode, index) => (
@@ -276,7 +376,7 @@ const UserSellCard = () => {
             onClick={handleSubmit}
             className="bg-blueX text-white py-2 rounded-md"
           >
-            Proceed
+            {requestLoading ? <Loader /> : "Request"}
           </button>
         </div>
       </form>

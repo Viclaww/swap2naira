@@ -7,6 +7,7 @@ const userSlice = createSlice({
     token: sessionStorage.getItem("s2n-token") || "",
     user: null,
     notifications: [],
+    transactions: [],
     wallet: null,
   },
 
@@ -21,6 +22,9 @@ const userSlice = createSlice({
     setNotifications: (state, action) => {
       state.notifications = action.payload;
     },
+    setTransactions: (state, action) => {
+      state.transactions = action.payload;
+    },
   },
 });
 
@@ -31,5 +35,6 @@ export const userSelector = (state: { user: { user: TUser } }) =>
 export const walletSelector = (state: { user: { wallet: TUser["wallet"] } }) =>
   state.user.wallet;
 
-export const { setToken, setUser, setNotifications } = userSlice.actions;
+export const { setToken, setUser, setNotifications, setTransactions } =
+  userSlice.actions;
 export default userSlice.reducer;
