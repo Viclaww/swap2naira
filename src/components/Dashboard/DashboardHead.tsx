@@ -15,21 +15,19 @@ const DashboardHead: React.FC<Props> = ({ pageName }) => {
   return (
     <div className="flex justify-between text-black mb-4">
       <span className="text-2xl font-medium">{pageName}</span>
-      <Link
-        to="/dashboard/settings/profile"
-        className="text-2xl flex items-center gap-4 font-semibold"
-      >
-        {picture ? (
-          <div className="w-8 h-8">
+      <div className="text-2xl flex items-center gap-4 font-semibold">
+        <Link to="/dashboard/settings/profile" className="w-8 h-8">
+          {picture ? (
             <img
               className="w-full object-cover object-center h-full aspect-auto rounded-full"
               src={picture}
               alt=""
             />
-          </div>
-        ) : (
-          <RxAvatar size={30} />
-        )}
+          ) : (
+            <RxAvatar size={30} />
+          )}
+        </Link>
+
         <div className="md:relative">
           <span
             onClick={() => setShowNotification(true)}
@@ -42,7 +40,7 @@ const DashboardHead: React.FC<Props> = ({ pageName }) => {
             setShow={setShowNotification}
           />
         </div>
-      </Link>
+      </div>
     </div>
   );
 };

@@ -79,7 +79,7 @@ export type TCardCategory = {
   uuid: string;
   id: number;
   brand: string;
-  category: string;
+  category: "both" | "ecode" | "physical";
   type: string;
   image: string;
   rate: number;

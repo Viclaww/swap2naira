@@ -110,7 +110,7 @@ const ProfileSettings = () => {
           />
           <span
             onClick={openImagePicker}
-            className="w-full cursor-pointer absolute top-0 group-hover:flex hidden h-full bg-black/25  rounded-full justify-center items-center"
+            className="w-full cursor-pointer absolute top-0 group-hover:flex md:hidden h-full bg-black/25  rounded-full justify-center items-center"
           >
             <RiImageEditLine size={30} />
           </span>

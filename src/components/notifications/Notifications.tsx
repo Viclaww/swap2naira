@@ -81,7 +81,7 @@ const Notifications: React.FC<Props> = ({ show, setShow }) => {
   return (
     <div
       id="notification-bar"
-      className={`md:shadow-xl z-40 pb-10 left-0 bg-white max-h-screen duration-500 fixed top-0 md:top-5 md:rounded-xl gap-3 w-full md:w-[400px]  p-3 flex flex-col md:right-4 ${
+      className={`md:shadow-xl z-40 pb-10 right-0 bg-white max-h-screen duration-500 fixed top-0 md:top-5 md:rounded-xl gap-3 w-full md:w-[400px]  p-3 flex flex-col md:right-4 ${
         !show && "pointer-events-none opacity-0 translate-y-[10%]"
       }`}
     >

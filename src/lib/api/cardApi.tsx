@@ -21,7 +21,21 @@ export const cardApi = generalApi.injectEndpoints({
         },
       }),
     }),
+    createRequest: build.mutation({
+      query: ({ token, data }) => ({
+        url: "/request",
+        method: "POST",
+        body: data,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    }),
   }),
 });
 
-export const { useGetBrandsQuery, useGetCategoriesMutation } = cardApi;
+export const {
+  useGetBrandsQuery,
+  useGetCategoriesMutation,
+  useCreateRequestMutation,
+} = cardApi;
