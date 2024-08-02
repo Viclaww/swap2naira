@@ -2,7 +2,7 @@ import { useState } from "react";
 
 type Tab = {
   name: string;
-  // content: React.ReactNode;
+  content?: React.ReactNode;
 };
 
 interface Props {
@@ -42,13 +42,6 @@ const TabComp: React.FC<Props> = ({ tabs, currentTab, setCurrentTab }) => {
           </div>
         ))}
       </div>
-      {/* <div className="flex flex-col justify-center items-center my-10">
-        <img src={""} alt="" className=" h-52 " />
-        <span className="text-blueGray text-xs">
-          No transaction yet, start trading so you can get a record of all your
-          transactions here{" "}
-        </span>
-      </div> */}
     </>
   );
 };

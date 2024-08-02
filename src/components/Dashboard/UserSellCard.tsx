@@ -303,21 +303,22 @@ const UserSellCard = () => {
               )}
             </div>
           </div>
+          <div className="flex flex-col">
+            <label className="font-medium">Enter Gift Card amount:</label>
+            <input
+              value={amount}
+              onChange={(e) =>
+                setAmount(validateNumberInput(amount, e.target.value))
+              }
+              type="text"
+              className="w-full outline-none border py-2 px-2 rounded-md"
+            />
+          </div>
+          <div className="w-full py-3 font-medium px-2 rounded-md bg-blueX/25">
+            ₦{cardValue()}
+          </div>
         </div>
-        <div className="flex flex-col">
-          <label className="font-medium">Enter Gift Card amount:</label>
-          <input
-            value={amount}
-            onChange={(e) =>
-              setAmount(validateNumberInput(amount, e.target.value))
-            }
-            type="text"
-            className="w-full outline-none border py-2 px-2 rounded-md"
-          />
-        </div>
-        <div className="w-full py-3 font-medium px-2 rounded-md bg-blueX/25">
-          ₦{cardValue()}
-        </div>
+
         <div className="flex  w-full lg:w-1/2 flex-col gap-5">
           <div className="images flex flex-wrap gap-3">
             {images &&

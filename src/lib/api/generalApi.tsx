@@ -91,8 +91,8 @@ export const generalApi = createApi({
       }),
     }),
     getTransactions: build.query({
-      query: (token: string) => ({
-        url: "/transaction",
+      query: ({ token, page }: { token: string; page?: number }) => ({
+        url: `/transaction${page ? `?page=${page}` : ""}`,
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,

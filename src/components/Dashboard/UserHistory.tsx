@@ -12,8 +12,9 @@ const UserHistory = () => {
     <>
       <DashboardHead pageName="History" />
       <TabComp tabs={tabs} />
+      <div></div>
     </>
   );
 };
-
+``;
 export default UserHistory;

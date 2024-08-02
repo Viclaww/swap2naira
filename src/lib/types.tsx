@@ -54,11 +54,14 @@ export type TBanks = {
   code: string;
   name: string;
 };
+
 export type TUserContext = {
   isFetching: boolean;
   user: TUser | null;
   error: unknown;
+  transactions: TTransaction[];
 };
+
 export type ModalContext = {
   isModalOpen: boolean;
   closeModal: () => void;
