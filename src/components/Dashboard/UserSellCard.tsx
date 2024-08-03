@@ -347,7 +347,7 @@ const UserSellCard = () => {
               />
               <span
                 onClick={openImagePicker}
-                className="w-20 cursor-pointer absolute top-0 group-hover:flex hidden h-full  justify-center items-center"
+                className="w-20 cursor-pointer absolute top-0 group-hover:flex flex  md:hidden h-full  justify-center items-center"
               >
                 <BiPlus size={30} />
               </span>

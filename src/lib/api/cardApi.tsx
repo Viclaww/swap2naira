@@ -31,6 +31,15 @@ export const cardApi = generalApi.injectEndpoints({
         },
       }),
     }),
+    getUserRequests: build.query({
+      query: ({ token, page }: { token: string; page?: number }) => ({
+        url: `/request${page ? `?page=${page}` : ""}`,
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    }),
   }),
 });
 
@@ -38,4 +47,5 @@ export const {
   useGetBrandsQuery,
   useGetCategoriesMutation,
   useCreateRequestMutation,
+  useGetUserRequestsQuery,
 } = cardApi;

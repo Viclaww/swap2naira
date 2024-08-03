@@ -89,6 +89,20 @@ export type TCardCategory = {
   active: false;
 };
 
+export type TRequest = {
+  uuid: string;
+  user_id: number;
+  payment_method: string;
+  card_id: number;
+  rate: number;
+  number: number;
+  total_amount: number;
+  images: string[];
+  ecodes: string[];
+  status: "pending" | "confirmed" | "declined";
+  created_at: string;
+};
+
 export type TTransaction = {
   uuid: string;
   amount: number;
