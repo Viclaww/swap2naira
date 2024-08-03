@@ -1,3 +1,4 @@
+import { capitalizeText } from "@/utils/functions";
 import { useState } from "react";
 
 type Tab = {
@@ -17,6 +18,7 @@ const TabComp: React.FC<Props> = ({ tabs, currentTab, setCurrentTab }) => {
   const handleSelectedTab = (tab: string) => {
     setCurrentTab && setCurrentTab(tab);
     setSelectedTab(tab);
+    console.log(tab);
   };
   return (
     <>
@@ -38,7 +40,7 @@ const TabComp: React.FC<Props> = ({ tabs, currentTab, setCurrentTab }) => {
             className={`flex justify-center relative z-30 text-white  items-center font-semibold text-sm  rounded-lg py-2 `}
             onClick={() => handleSelectedTab(name)}
           >
-            {name}
+            {capitalizeText(name)}
           </div>
         ))}
       </div>

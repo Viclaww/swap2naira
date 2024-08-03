@@ -118,9 +118,13 @@ const WithdrawModal = ({
       const { data, error } = await withdraw({ token, body });
       if (data && data.success) {
         toast.success(data.data);
+        setPin("");
+        setInvisible();
       }
+
       if (error && "data" in error) {
         toast.error((error.data as { message: string }).message);
+        setPin("");
       }
     } catch (error) {
       console.error(error);

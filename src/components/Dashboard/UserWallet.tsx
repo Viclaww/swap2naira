@@ -1,5 +1,4 @@
 import DashboardHead from "./DashboardHead";
-import Balance from "./Balance";
 import { useGetUserRequestsQuery } from "@/lib/api/cardApi";
 import { useAppSelector } from "@/lib/hooks";
 import Loader from "../loader";
@@ -82,8 +81,8 @@ const UserWallet = () => {
 
   return (
     <>
-      <DashboardHead pageName="Wallet" />
-      <Balance />
+      <DashboardHead pageName="Requests" />
+
       <div className="text-black px-5  font-medium text-lg gap-2 flex-col flex">
         <div className="border-b">
           <div className="gap-3 flex text-base px-2 ">
@@ -122,7 +121,11 @@ const UserWallet = () => {
           </div>
         </div>
         <TableContainer component={Paper}>
-          <Table className="min-h-[60vh]">
+          <Table
+            className={`${
+              (isFetching || requestArray().length < 0) && "min-h-[60vh]"
+            } e`}
+          >
             <TableHead className="bg-blueX/25 font-semibold">
               <TableRow>
                 <TableCell>Transaction id</TableCell>
@@ -134,7 +137,7 @@ const UserWallet = () => {
                 <TableCell align="left">Status</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody className="min-h-[60vh]">
+            <TableBody>
               {isFetching ? (
                 <td colSpan={7} className="col-span-7 w-full h-full">
                   <Loader />
@@ -142,14 +145,14 @@ const UserWallet = () => {
               ) : requestArray().length > 0 ? (
                 rows?.map((row) => (
                   <TableRow
-                    className="cursor-pointer hover:bg-blueX/25"
+                    className="cursor-pointer h-10 hover:bg-blueX/25"
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     key={row.transactionId}
                   >
                     <TableCell>{row.transactionId.substring(24)}</TableCell>
                     <TableCell>{formattedDate(row.date)}</TableCell>
                     <TableCell>{row.payment}</TableCell>
-                    <TableCell>₦{row.number}</TableCell>
+                    <TableCell>{row.number}</TableCell>
                     <TableCell>₦{row.rate}</TableCell>
                     <TableCell>₦{row.total}</TableCell>
                     <TableCell>

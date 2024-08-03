@@ -18,7 +18,7 @@ import Loader from "../loader";
 // import empty from "../../images/Empty-amico.png";
 
 const UserHistory = () => {
-  const token: string = useAppSelector((state) => state.user.token);
+  const token = useAppSelector((state) => state.user.token) as string;
   const [transactions, setTransactions] = useState<TTransaction[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isNextPage, setIsNextPage] = useState(false);
@@ -29,8 +29,8 @@ const UserHistory = () => {
 
   const tabs = [
     { name: "All", content: "" },
-    { name: "Gift Cards", content: "" },
-    { name: "Withdrawals", content: "" },
+    { name: "gift-card", content: "" },
+    { name: "withdrawal", content: "" },
   ];
 
   const { data, isFetching, refetch } = useGetTransactionsQuery({
@@ -50,11 +50,11 @@ const UserHistory = () => {
   }
 
   const txArray = (): TTransaction[] => {
-    if (filter == "gift-cards") {
+    if (filter == "withdrawal") {
       return transactions.filter((x) => x.type == "withdrawal");
     }
-    if (filter == "confirmed") {
-      return transactions.filter((x) => x.type == "gift-card");
+    if (filter == "gift-card") {
+      return transactions.filter((x) => x.type == "giftcard");
     }
     return transactions;
   };

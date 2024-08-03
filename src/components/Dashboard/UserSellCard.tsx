@@ -12,6 +12,7 @@ import Loader from "../loader";
 import { outsideClick, validateNumberInput } from "@/utils/functions";
 import { BiChevronDown, BiPlus, BiX } from "react-icons/bi";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const UserSellCard = () => {
   const token = useAppSelector((state) => state.user.token);
@@ -26,6 +27,8 @@ const UserSellCard = () => {
   const [amount, setAmount] = useState<number>(0);
   const [ecodes, setEcodes] = useState<string[]>([]);
   const [ecodeInput, setEcodeInput] = useState<string>("");
+
+  const navigate = useNavigate();
 
   const [getCategories, { data: categories, isLoading: categoriesLoading }] =
     useGetCategoriesMutation();
@@ -175,6 +178,7 @@ const UserSellCard = () => {
       if (responce && responce.data) {
         console.log(responce.data);
         toast.success(responce.data.data);
+        navigate("/dashboard/requests");
       }
       if (responce && responce.error) {
         console.log(responce.error);

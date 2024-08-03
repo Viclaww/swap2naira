@@ -17,11 +17,11 @@ const DashNavbarLayout: React.FC<Prop> = ({ children }) => {
       name: "Home",
     },
     {
-      path: "/dashboard/wallet",
+      path: "/dashboard/requests",
       icon: (active: boolean) => (
         <Wallet3 size="24" color="#fff" variant={active ? "Bold" : "Linear"} />
       ),
-      name: "Wallet",
+      name: "Requests",
     },
     {
       path: "/dashboard/history",

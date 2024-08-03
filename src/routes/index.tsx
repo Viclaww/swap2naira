@@ -46,6 +46,6 @@ const routes = [
   },
 
   { path: "/dashboard/history", element: <History /> },
-  { path: "/dashboard/wallet", element: <Wallet /> },
+  { path: "/dashboard/requests", element: <Wallet /> },
 ];
 export default routes;
