@@ -149,9 +149,9 @@ const UserWallet = () => {
                     <TableCell>{row.transactionId.substring(24)}</TableCell>
                     <TableCell>{formattedDate(row.date)}</TableCell>
                     <TableCell>{row.payment}</TableCell>
-                    <TableCell>{row.number}</TableCell>
-                    <TableCell>{row.rate}</TableCell>
-                    <TableCell>{row.total}</TableCell>
+                    <TableCell>₦{row.number}</TableCell>
+                    <TableCell>₦{row.rate}</TableCell>
+                    <TableCell>₦{row.total}</TableCell>
                     <TableCell>
                       <span
                         className={`p-[6px] rounded-lg ${
