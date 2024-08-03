@@ -14,8 +14,9 @@ import {
   validateNumberInput,
 } from "@/utils/functions";
 import TransactionPinModal from "../TransactionPinModal";
+import { useWithdrawMutation } from "@/lib/api/generalApi";
 // import { useWithdrawMutation } from "@/lib/api/generalApi";
-// import { useAppSelector } from "@/lib/hooks";
+import { useAppSelector } from "@/lib/hooks";
 
 const Balance = () => {
   const { isFetching, user, error } = useUserContext() as TUserContext;
@@ -104,9 +105,27 @@ const WithdrawModal = ({
   const accountName = useUserContext().user?.wallet.account_name;
   const bankName = useUserContext().user?.wallet.bank_name;
   const mainBalance = useUserContext().user?.wallet.main_balance;
-  // const token = useAppSelector((state) => state.user.token);
+  const token = useAppSelector((state) => state.user.token);
 
-  // const [withdraw] = useWithdrawMutation();
+  const [withdraw, { isLoading }] = useWithdrawMutation();
+
+  const requestWithdraw = async () => {
+    try {
+      const body = {
+        amount,
+        pin,
+      };
+      const { data, error } = await withdraw({ token, body });
+      if (data && data.success) {
+        toast.success(data.data);
+      }
+      if (error && "data" in error) {
+        toast.error((error.data as { message: string }).message);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const handleWithdraw = () => {
     if (!isPin) {
       toast.warning("You have to set Transaction Pin to be able to Withdraw.");
@@ -140,7 +159,8 @@ const WithdrawModal = ({
             <span className="text-xl font-semibold">Withdraw</span>
             <p>Insert pin to continue with Transaction</p>
             <TransactionPinModal
-              handleSubmit={() => null}
+              handleSubmit={requestWithdraw}
+              loading={isLoading}
               onCancel={() => {
                 setTakepin(false);
               }}

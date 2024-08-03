@@ -12,7 +12,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { formattedDate } from "@/utils/functions";
+import { capitalizeText, formattedDate } from "@/utils/functions";
 
 const UserWallet = () => {
   const token = useAppSelector((state) => state.user.token);
@@ -22,6 +22,7 @@ const UserWallet = () => {
   const [isPrevPage, setIsPrevPage] = useState(false);
   const [lastPage, setLastPage] = useState(1);
   const [page, setPage] = useState<number>(1);
+  const [filter, setFilter] = useState("All");
   const { data, isFetching, refetch } = useGetUserRequestsQuery({
     token,
     page,
@@ -40,8 +41,21 @@ const UserWallet = () => {
     return { transactionId, date, payment, number, rate, total, status };
   }
 
+  const requestArray = (): TRequest[] => {
+    if (filter == "pending") {
+      return requests.filter((x) => x.status == "pending");
+    }
+    if (filter == "confirmed") {
+      return requests.filter((x) => x.status == "confirmed");
+    }
+    if (filter == "declined") {
+      return requests.filter((x) => x.status == "declined");
+    }
+    return requests;
+  };
+
   if (data) {
-    rows = requests.map((request) =>
+    rows = requestArray().map((request) =>
       createData(
         request.uuid,
         request.created_at,
@@ -70,9 +84,45 @@ const UserWallet = () => {
     <>
       <DashboardHead pageName="Wallet" />
       <Balance />
-      <div className="text-black px-5 font-medium text-lg flex-col flex">
+      <div className="text-black px-5  font-medium text-lg gap-2 flex-col flex">
+        <div className="border-b">
+          <div className="gap-3 flex text-base px-2 ">
+            <span
+              onClick={() => setFilter("All")}
+              className={` cursor-pointer ${
+                filter == "All" ? "border-b-blueX border-b-4 " : ""
+              }`}
+            >
+              All
+            </span>
+            <span
+              onClick={() => setFilter("pending")}
+              className={` cursor-pointer ${
+                filter == "pending" ? "border-b-blueX border-b-4 " : ""
+              }`}
+            >
+              Pending
+            </span>
+            <span
+              onClick={() => setFilter("confirmed")}
+              className={` cursor-pointer ${
+                filter == "confirmed" ? "border-b-blueX border-b-4 " : ""
+              }`}
+            >
+              Confirmed
+            </span>
+            <span
+              onClick={() => setFilter("declined")}
+              className={` cursor-pointer ${
+                filter == "declined" ? "border-b-blueX border-b-4 " : ""
+              }`}
+            >
+              Declined
+            </span>
+          </div>
+        </div>
         <TableContainer component={Paper}>
-          <Table>
+          <Table className="min-h-[60vh]">
             <TableHead className="bg-blueX/25 font-semibold">
               <TableRow>
                 <TableCell>Transaction id</TableCell>
@@ -84,10 +134,12 @@ const UserWallet = () => {
                 <TableCell align="left">Status</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
+            <TableBody className="min-h-[60vh]">
               {isFetching ? (
-                <Loader />
-              ) : requests.length > 0 ? (
+                <td colSpan={7} className="col-span-7 w-full h-full">
+                  <Loader />
+                </td>
+              ) : requestArray().length > 0 ? (
                 rows?.map((row) => (
                   <TableRow
                     className="cursor-pointer hover:bg-blueX/25"
@@ -110,13 +162,15 @@ const UserWallet = () => {
                             : "bg-red-600"
                         }`}
                       >
-                        {row.status}
+                        {capitalizeText(row.status)}
                       </span>
                     </TableCell>
                   </TableRow>
                 ))
               ) : (
-                ""
+                <td colSpan={7} className="col-span-7 w-full h-full">
+                  <h1 className="text-center">There are no card requests</h1>
+                </td>
               )}
             </TableBody>
           </Table>
