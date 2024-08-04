@@ -69,11 +69,19 @@ const UserWallet = () => {
 
   useEffect(() => {
     if (data) {
+      console.log("tran");
       setRequests(data.data.data);
       setCurrentPage(data.data.current_page);
       setLastPage(data.data.last_page);
-      if (data.data.next_page_url) setIsNextPage(true);
-      if (data.data.prev_page_url) {
+      if (!data.data.next_page_url) {
+        setIsNextPage(false);
+      } else {
+        setIsNextPage(true);
+      }
+
+      if (!data.data.prev_page_url) {
+        setIsPrevPage(false);
+      } else {
         setIsPrevPage(true);
       }
     }
@@ -128,13 +136,27 @@ const UserWallet = () => {
           >
             <TableHead className="bg-blueX/25 font-semibold">
               <TableRow>
-                <TableCell>Transaction id</TableCell>
-                <TableCell align="left">Date</TableCell>
-                <TableCell align="left">Payment Method</TableCell>
-                <TableCell align="left">Number</TableCell>
-                <TableCell align="left">Rate</TableCell>
-                <TableCell align="left">Total</TableCell>
-                <TableCell align="left">Status</TableCell>
+                <TableCell>
+                  <span className="font-semibold">Transaction id</span>
+                </TableCell>
+                <TableCell align="left">
+                  <span className="font-semibold">Date</span>
+                </TableCell>
+                <TableCell align="left">
+                  <span className="font-semibold">Payment</span>
+                </TableCell>
+                <TableCell align="left">
+                  <span className="font-semibold">Number</span>
+                </TableCell>
+                <TableCell align="left">
+                  <span className="font-semibold">Rate </span>
+                </TableCell>
+                <TableCell align="left">
+                  <span className="font-semibold">Total</span>
+                </TableCell>
+                <TableCell align="left">
+                  <span className="font-semibold">Status</span>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

@@ -69,8 +69,15 @@ const UserHistory = () => {
       setTransactions(data.data.data);
       setCurrentPage(data.data.current_page);
       setLastPage(data.data.last_page);
-      if (data.data.next_page_url) setIsNextPage(true);
-      if (data.data.prev_page_url) {
+      if (!data.data.next_page_url) {
+        setIsNextPage(false);
+      } else {
+        setIsNextPage(true);
+      }
+
+      if (!data.data.prev_page_url) {
+        setIsPrevPage(false);
+      } else {
         setIsPrevPage(true);
       }
     }
@@ -82,13 +89,25 @@ const UserHistory = () => {
       <TabComp currentTab={filter} setCurrentTab={setFilter} tabs={tabs} />
       <div className=" flex flex-col mt-6 md:px-10">
         <TableContainer component={Paper} className=" md:w-2/3 ">
-          <Table className="min-h-[60vh]">
+          <Table
+            className={`${
+              (isFetching || txArray().length < 0) && "min-h-[60vh]"
+            } e`}
+          >
             <TableHead className="bg-blueX/25 font-semibold">
               <TableRow>
-                <TableCell>Transaction id</TableCell>
-                <TableCell align="left">Type</TableCell>
-                <TableCell align="left">Total</TableCell>
-                <TableCell align="left">Status</TableCell>
+                <TableCell>
+                  <span className="font-semibold"> Transaction id</span>
+                </TableCell>
+                <TableCell align="left">
+                  <span className="font-semibold">Type </span>
+                </TableCell>
+                <TableCell align="left">
+                  <span className="font-semibold">Total</span>
+                </TableCell>
+                <TableCell align="left">
+                  <span className="font-semibold">Status</span>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody className="min-h-[60vh]">
